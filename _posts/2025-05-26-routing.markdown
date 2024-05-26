@@ -1,0 +1,129 @@
+---
+layout: default
+title: Routing in Rails
+date: 2024-05-26
+categories: Ruby on Rails
+---
+This blog post aims to teach you all about Rails routing with an emphasis on resourceful routing. By the time you complete this , you should've have learned about the following;
+
+What a router is and its purpose in rails.
+What Resourceful routing is and how its different from Non Resourceful routing.
+A basic introduction to HTTP methods and CRUD and REST architecture.
+Using the resources method to dry up our route definitions.
+Declaring routes for a multiple resource application.
+URL and path helpers generated when we use the resources method of generate routes.
+In a typical web application, a browser sends a request to a server via a URL. The aim of this request may be something as simple as returning a static page to something as complex as deleting a user account. When a user types a URL to make a request in the browser, we need "someone" to make sure that each request is directed to the appropriate controller in our Rails application and to also ensure that incase a request is made for something non existent in our application, we return an error to the user(browser), informing them that the resource is non-existent. This "someone" responsible for doing all this is our Router.
+In the simplest terms, you can think of a router as a doorkeeper or middle man in our Rails application. He receives requests from the browser and determines which controller to send the request to. This is his main role. However as we will see later on, when we declare routes in our router, we are provided with URL and path helpers which we can go on to use in our views to simplify navigation and actions.
+
+Pasted image 20240515213953.png
+(assets/images/image.png)
+Image describing how basic Rails apps work
+
+So this router "person" must live some where just like any other individual. Well, the "home" of our router is in the config folder of our rails application, more specifically in the routes.rb file.
+All routes for our application are declared here.
+So I suppose by now, you're asking how to go about writing your own routes. Lets get into it.
+As mentioned before, all routes are written in our routes.rb file. Each route definition is made up of basically 3 parts;
+
+An HTTP verb
+A URL
+A Controller action.
+Thus, if we were to write a route definition to "return the home page of the application" when we navigate to "localhost:3000/home" in our browser, we would write that as;
+get "/home", to: "welcome#home"
+In the above route definition,
+
+get is an HTTP verb used when we want to return something to a user. This may be a static page as in our case.
+"/home" is our URL
+"welcome#home" is a controller action meaning that the router will send the request to the home action of our Welcome Controller.
+class WelcomeController < ApplicationController
+	def home
+	end
+end
+The route definition above is an example of what we call Non Resourceful routing. What this means is that, when our request is sent to the Welcome controller , it doesn't have to interact with a model/database for a response to be sent back to the browser. The controller simply directs the request to our view file of the same name i.e. home.html.erb and returns this static page along with its contents to the browser. This kind of routing is not dependent on a model resource to happen thus the name Non resourceful routing.
+
+Resourceful Routing
+Most web applications including social media apps like Twitter are CRUD applications at heart. CRUD is an acronym for Create, Read, Update, Destroy. In the case of a blog application, we can create a post, read a post, update a post or delete a post. All these actions are performed on a resource named Post and thus are dependent on the existence of a Blog Post. This is an example of Resourceful routing. This type of routing requires route declarations that are specific for a particular resource(in this case "posts"), a resourceful controller specific for the Post resource namely the Posts Controller as well as a model named Post as well as a "posts" table.
+Each of these CRUD actions is associated with certain methods as we will see and this association is what will determine the declaration of these route definitions.
+Create action is associated with the new and create actions. The new action renders a form to create a post without saving it to the database. The create action is responsible for then saving the post. Thus routes associated with the Crate action will be as below;
+
+get "/posts/new", to: "posts#new"
+post "/posts", to: "posts#create"
+Here we introduce a new HTTP verb named "post" which is associated with the creation of new resources i.e. blog posts.
+Read action on the other hand is associated with the index, show actions. Both these actions will be associated with the get request since the index action is for displaying/returning a list of all Blog Posts and the show action is for displaying a single Blog Post. Our routes for the read action will appear as below;
+
+get "/posts/:id", to: "posts#show"
+get "/posts", to: "posts#index"
+The Update action is associated with the edit and update controller actions. The edit action looks for a particular saved blog post, returns it and displays a form to edit its attributes without saving. This means it will be associated with the get HTTP verb. The update action saves the edited post to the database and will be associated with the patch/put HTTP verbs. These differentiate this request from the create action which is associated with the post HTTP verb and is used for creating new Blog Posts.
+Routes related to the Update action are as below;
+
+get "/posts/:id/edit", to: "posts#edit"
+put "/posts/:id", to: "posts#update"
+Lastly, our delete action will be associated with the destroy action. This allows us to delete a post. We use the HTTP verb delete to signify that this request is meant to delete a post. Route definitions for this action will be as below;
+
+delete "/posts/:id", to "posts#destroy"
+Our Posts controller will look like this;
+
+class PostsController < ApplicationController
+	def index
+	end
+	def show
+	end
+	def new
+	end
+	def create
+	end
+	def edit
+	end
+	def update
+	end
+	def destroy
+	end
+end
+We've utilized 4 HTTP verbs to generate RESTFUL routes for our posts. Our routes.rb file will look as below;
+
+get "/posts/new", to: "posts#new"
+post "/posts", to: "posts#create"
+get "/posts/:id", to: "posts#show"
+get "/posts", to: "posts#index"
+get "/posts/:id/edit", to: "posts#edit"
+put "/posts/:id", to: "posts#update"
+delete "/posts/:id", to "posts#destroy"
+Thumbs Up Rails Tip: What shows that our routes are RESTFUL routes?
+The route definitions above are considered RESTFUL routes because each of them utilizes the appropriate HTTP verb to perform its function. For example using a "GET" HTTP method to retrieve a resource/ resources via the new and index controller actions, a "POST" HTTP method to create a resource, a "DELETE" HTTP method to delete an existing resource and a "PUT" HTTP method to update an existing resource.
+We can run "rails routes" in our terminal to see all available routes.
+-> Add a snapshot of the terminal to show available routes
+“Pasted image 20240515220050.png” could not be found.
+
+Thumbs Up rails tip:
+You can also view available routes for your application via the browser as below;
+
+localhost:3000/rails/info/routes
+On starting your server and navigating to the above in your browser, you'll get a list of all the routes in your rails application as below
+“Pasted image 20240515215540.png” could not be found.
+
+While the above code works perfectly, its very messy and we are more prone to make mistakes in the case of a multi resource application. Our application routes would be a nightmare to maintain.
+Lucky for us, rails provides a better way of declaring routes with the "resources" method.
+With a single line of code below, we generate all the 7 restful routes for our posts and in addition, we are provided with custom URL and path helpers which will come in handy for our views.
+
+resources :posts
+-> Attach picture of some of the URL and path helpers that will be generated by the above code.
+A bonus of using the resources method is the fact that we can generate routes for specific action using the only "keyword". Let's assume that hypothetically, we wanted to allow a user to only see existing posts and not create any new posts, update existing posts or delete any posts unless he is the admin. We could generate routes for only the index and show actions as below;
+
+resources :posts, only: [:index,:show]
+Another advantage of using the resources method is that its easier to represent hierarchical relationships whereby a certain resource is the child of another resource. Let's say we got comfortable with criticism about our work and added a comment functionality to our Blog application. We are familiar with the fact that comments belong to a post and each post has many comments. to avoid mixing up comments of a particular post, we can indicate this relationship when generating routes for our comments as below. In this case, comment is the child resource and Post is the parent resource.
+
+resources :posts do
+	resources :comments
+end
+The above is referred to as nested routing and with the manual approach of writing route definitions, such relationships between two or more resources would be impossible to visualize.
+We'll talk more about these in detail in another post.
+In the case where the resources in our application are not associated with one another, we can still use the resources method to easily generate routes for these resources as below.
+
+resources :posts
+resources :pictures
+resources :books
+Try to use the generated path helpers in the views of your application and see the wonder that is rails.
+Rather interesting questions by beginners
+
+Why are routes enclosed in a do-end block?
+What are router DSL methods? This is mentioned as something to look out for in the rails guides.
+Why is the routes.rb file located in the config folder and not the main app 
