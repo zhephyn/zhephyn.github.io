@@ -2,7 +2,7 @@
 layout: default
 title: Routing in Rails
 date: 2024-05-26
-categories: Ruby on Rails
+categories: rails
 ---
 This blog post aims to teach you all about Rails routing with an emphasis on resourceful routing. By the time you complete this , you should've have learned about the following;
 

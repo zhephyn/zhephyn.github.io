@@ -1,0 +1,11 @@
+---
+layout: default
+title: How Ai will change the music industry
+date: 2024-05-26
+categories: essays
+---
+
+We've seen various AI music apps come onto the market in the past week. While all this seems great, we end up asking ourselves one question, will the music industry stay the same?
+and what does this mean for artists and creatives alike?
+Will we need record labels anymore?
+plus what are the implications of using existing songs to train Ai models?
