@@ -146,4 +146,4 @@ Proc
  => "John Doe" 
 ```
 
-And that marks the end of this post. In case you missed part 1 of the series, you can check it out here. 
+And that marks the end of this post. In case you missed part 1 of the series, you can check it out [here](https://zhephyn.github.io/ruby/2025/04/16/an-introduction-to-ruby-code-blocks-part-1.html). 
