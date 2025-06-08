@@ -12,7 +12,7 @@ When i had started out to learn ruby, one of the earliest problems i was present
 ```ruby
 numbers = [1,2,3]
 numbers.each do |number|
-  puts num
+  puts number
 end
 ```
 
