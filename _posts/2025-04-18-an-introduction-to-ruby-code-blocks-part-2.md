@@ -25,7 +25,7 @@ end
 ```
 
 ```ruby
- def full_name(&first_name)
+def full_name(&first_name)
   firstname = first_name.call
   fullname = firstname + " " + "Doe"
 end
@@ -38,7 +38,7 @@ end
 "John Doe"
 ```
 
-The first solution(method) employs yield and specifically the concept of Implicit code blocks in Ruby to solve the problem while the second utilizes Explicit code blocks to solve the same problem. For this exact problem, both these solutions are okay. However for use cases when we need to "*capture*" and "*save the code block for later execution*", the limitations of solution 1 which utilizes Implicit code blocks become evident very quickly and we'll see that the second solution i.e. the one employing code blocks is better for the reasons highlighted below.
+The first solution(method) employs yield and specifically the concept of Implicit code blocks in Ruby to solve the problem while the second utilizes Explicit code blocks to solve the same problem. For this exact problem, both these solutions are okay. However for use cases when we need to "*capture*" and "*save the code block for later execution*", the limitations of solution 1 which utilizes Implicit code blocks become evident very quickly and we'll see that the second solution i.e. the one employing explicit code blocks is better for the reasons highlighted below.
 ## Comparison between Explicit and Implicit Code Blocks in Ruby
 
 | Aspect                                    | Implicit Code blocks(yield version)                     | Explicit code blocks(Proc version)                                                                                |
@@ -65,10 +65,10 @@ Proc
 "John Doe" 
 ```
 
-When we pass a block to the above method, we can see that when we check for the class of the "first_name" object, the output is  "Proc" signifying that this is a Proc object. Here's a step by step flow of how that happens:
+When we pass a block to the above method, we can see that on checking for the class of the "first_name" object, the output is  "Proc" signifying that this is a Proc object. Here's a step by step flow of how that happens:
 
 - Explicit code block passed to the full_name method is converted into a Proc object.
-- Proc object is captured and assigned to the first_name parameter
+- Proc object is captured and assigned to and stored in the first_name parameter
 - Inside the method, we call the Proc using:
 ```ruby
 first_name.call
@@ -103,7 +103,8 @@ By prefixing the "first_name" parameter with an Ampersand(&) we let ruby know th
 3.2.6 :043 > 
 ```
 
-Without the ampersand, Ruby no longer knows how to handle the code block passed to it and expects the the full_name method to rather be called like any other method in Ruby. And since we defined the full_name method to have one parameter, namely the first_name, Ruby expects that the method should be called along with one argument, which is exactly why we get the error above. In simple terms, Ruby is saying 
+Without the ampersand, Ruby no longer knows how to handle the code block passed to it and expects the full_name method to  be called like any other method in Ruby. And since we defined the full_name method to have one parameter, namely the first_name, Ruby expects that the method should be called along with one argument, which is exactly why we get the error above. In simple terms, Ruby is saying:
+
 "*Hey, you defined the "full_name" method to take an argument but you've called the "full_name" method without providing an argument.*"
 
 There is a way for Ruby to understand that a block passed to a given method should be handled as an explicit code block even though you've left out the Ampersand.
@@ -125,7 +126,7 @@ Proc
  => "John Doe"
 ```
 
-In the above code, we see that the output is still the same as the initial "full_name" method regardless of the fact that we left out the Ampersand. The above code works because when passing the code block to the "full_name" method, we handled the conversion of the code block into a Proc object ourselves by calling Proc.new. 
+In the above code, we see that the output is still the same as the initial "full_name" method regardless of the fact that we left out the Ampersand. The above code works because when passing the code block to the "full_name" method, we handled the conversion of the code block into a Proc object manually by calling Proc.new. 
 In the output we also notice that the first_name object is a Proc object meaning the conversion of the code block into a Proc object was successful. 
 
 This highlights the importance of the Ampersand. For a given code block to be termed as an explicit code block, ruby has to convert it into a Proc object. This can be achieved either automatically(by prefixing the "first_name" parameter with the Ampersand(&) and have Ruby handle the conversion of the code block into a Proc object behind the scenes as in the initial version of the full_name method) or manually where by we handle the conversion of the code block into a Proc object our selves by calling **Proc.new**. You can choose either based on what you prefer though my personal preference is to use the Ampersand as that's one less thing to think about in case things go wrong. 
