@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-07-07T20:43:09+03:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Thumbs Up Rails</title><subtitle>Personal Blog and website with blog posts about the Ruby on Rails framework  Topics include Hotwire and Stimulus JS how to guides, Kamal deployment.</subtitle><entry><title type="html">Why Junior Rails developers should contribute to Open Source projects</title><link href="http://localhost:4000/ruby/2025/07/04/why-junior-rails-developers-should-contribute-to-open-source.html" rel="alternate" type="text/html" title="Why Junior Rails developers should contribute to Open Source projects" /><published>2025-07-04T21:49:09+03:00</published><updated>2025-07-04T21:49:09+03:00</updated><id>http://localhost:4000/ruby/2025/07/04/why-junior-rails-developers-should-contribute-to-open-source</id><content type="html" xml:base="http://localhost:4000/ruby/2025/07/04/why-junior-rails-developers-should-contribute-to-open-source.html"><![CDATA[<h2 id="the-path-to-land-a-tech-job-is-documented-online">The path to land a tech job is documented online.</h2>
+<p>Before the tech job market became a mess with AI and big tech lay offs, the path to becoming a software developer was pretty straightforward. Build projects, make a portfolio and then apply to jobs. This was applicable whether you’re self taught or whether you went to a boot camp. Most self taught developers would choose a tutorial in their language of choice and build along with their instructor. After working through this tutorial for whatever duration of time, at the end, they would have a project to show off, an end product of having worked through said tutorial.</p>
+
+<p>Nowadays you need more than a list of tutorial projects you’ve worked through to land a soft ware job especially for junior developers. And as someone trying to land your first tech at arguably the worst point in time in tech history, you’ll have to do a little bit more than building projects to stand out from the crowd. My personal experience working through online tutorials led me to the conclusion that, “Tutorial projects are not enough. Supplement them with Open source contributions”.</p>
+
+<p>Through out this blog post, I have one aim, to convince the fellow junior developer reading this to consider contributing to open source.</p>
+
+<h2 id="how-open-source-addresses-the-problem-with-programming-tutorials">How Open source addresses the problem with programming tutorials.</h2>
+<p>The problem with most tutorials is that even after you’ve done and completed many of them, you’ve done a lot of copy pasting along the way and you don’t really understand why the creator of the tutorial chose the syntax they ended up with and more importantly, if there are better solutions to the problem at hand. Most tutorials focus on writing code that just works, and most junior developers including me, “We don’t know what we don’t know”. This is where open source comes in as a solution to the tutorial problem.</p>
+
+<p>For a junior developer, contributing to open source is comparable to being thrown in the deep end. You’ll have to navigate the code base your self, you’ll struggle with a lot of bugs that are introduced by your new code, failing CI tests and so much more. Every line of code you write has to be accounted for and tested that it won’t break existing functionality. If the code can be rewritten or refactored, you’ll be instructed to do just that.</p>
+
+<blockquote>
+  <p><strong><em>“Every code base has a given standard of code quality and for your PR to be 
+merged, you’ll have nothing to do other than meet that standard.”</em></strong></p>
+</blockquote>
+
+<p>The good news through out all this is that, <strong>by the time that PR is merged, you’ll be surprised at the sheer amount of stuff you didn’t know when you started out</strong>.</p>
+
+<p><img src="/_site/assets/images/haruki-murakami-kafka-on-the-shore-quote.png" alt="Kafka on the shore quote" /></p>
+
+<h2 id="my-first-open-source-experience">My first Open Source experience.</h2>
+<p>In the last quarter of 2024, i made my first open source contribution to a project called <strong>Avo</strong>. My thought process about how I would work through the assigned issue was naive in every sense. I imagined that i would create a new branch for the issue i was working on, make changes to the code to implement that feature, go to localhost:3000 in my browser to see if the feature works as expected, then push the PR and have that PR merged to the main branch.</p>
+
+<p>Of course that didn’t go as i had planned it out in my head. First and foremost, I realized that making changes to the code base as i went about implementing the feature brought about a few things. New bugs were introduced, i ran into errors and the new code caused tests that were passing on main to fail on my branch. 
+Which brings me to my first lesson, “For every code change you make, appropriate tests should be written for that code” and “testing is the only way for you to be sure that a feature works as expected.” A failing tests definitely highlights that something is wrong and a passing test gives you confidence that the feature implementation was successful. Having experienced this ordeal, i appreciated writing tests more and the ideas behind test driven development commonly known as TDD.</p>
+
+<p><strong>My new code caused CI feature, system and lint tests to fail</strong>:</p>
+
+<p>Secondly, when you push a branch to the PR, the project CI tests your code against all versions of the project as many projects tend to offer support for old version of projects. In the rails ecosystem, this means that even if the current code base is powered by the latest version of rails i.e. Rails 8, the code you introduce should work okay even on previous versions of rails, both major and minor versions. This includes Rails 6, 7, 6.1, 7.2 and so on. “The code you introduced should not break any existing functionality or tests”. Therefore for your code to be finally merged, all checks ran against that PR should pass.</p>
+
+<p>There are other lessons i learnt of course that are related to the CI for example working with code standard tools such as Rubocop, making sure that your changes work on both new and major versions using a tool called Appraisal from Thought bot and so on. The main point I’m trying to put across is that, you don’t know what you don’t know and the amount of stuff i learnt just by working on that first PR was so enormous.</p>
+
+<h2 id="benefits-of-contributing-to-open-source">Benefits of contributing to open source</h2>
+
+<ol>
+  <li>
+    <p>Making it work is the first step, making it maintainable and making sure that the code you’ve written meets the standards of that code base is the second step. By contributing to open source, you go from “this code works” to “Is this code maintainable in the long run? and if future me was to implement a feature that relies on the code I’m writing today, how many and what kind of changes would he have to make to this code?”</p>
+  </li>
+  <li>
+    <p>Its a hands on lesson in refactoring. Most times when you read books, in my case, Ruby programming books, they show you a piece of code and then give you ideas on how that code could be refactored. While this is good, for such refactoring knowledge to be ingrained in your memory, you’ll need to put it into practice.          If you’re working on a PR and you run into a use case where one of those refactoring ideas may apply, you’ll appreciate the refactoring more simply because this time around, you’ll have context and you’ll be able to answer questions like: Why did we choose this specific idea to refactor this code and not the other?, What are the implications of this refactor to other parts of the code base?, Why is this refactoring technique better than the other? This shared context is very important because after learning it for the first time, the process and technique you applied to perform that refactoring will be with you for life. In my experience, refactoring ideas and techniques are best learn from experience. You need to make your hands dirty.</p>
+  </li>
+</ol>
+
+<p><strong>Refactor to use meta programming instead of if statements as part of another PR</strong></p>
+
+<p><strong>To this:</strong></p>
+
+<ol>
+  <li>
+    <p>Its free mentorship from the maintainer of the code bases who in most cases tend to be senior engineers. These guys are more willing to help you simply because you’ve shown initiative which is something very few people do. Remember, most juniors want a mentor but by contributing to open source, you get a mentor by default. No asking required.</p>
+  </li>
+  <li>
+    <p>Open source contributions expose gaps in memory and will allow you identify which areas you are not as proficient in as much as you claim to be. Take an example, when i was working on my first Open source contribution, I struggled a lot with writing tests and making the distinction between whether to write feature or unit tests. While it wasn’t my first time working with Rspec and Capybara(the testing framework duo of the project), i certainly hadn’t used these in a production environment. When i identified this gap, i went down a rabbit hole to answer questions like How is a test built line by line?, What is the difference between “describe”, “it” and “context” and when should each be used? How do i stub and mock? That was back in 2024. Fast forward to June 2025, and I’m way better at writing tests than I was when i started out. At some point, i even considered starting with the test first and then implementing a feature last, something old me would’ve considered only possible for experienced programmers. The thought that i would even consider this is very funny given that, TDD is the one thing that never made sense to me for a while.</p>
+  </li>
+  <li>
+    <p>There is no downside to contributing to open source. Even in unfortunate cases where your PR is not approved and merged, the sheer process of working on the PR, meeting the standards of that code base, fixing tests that are failing on the PR, all these are learning experiences in of themselves are lessons which you may draw upon when working on future problems in other code bases.</p>
+  </li>
+  <li>
+    <p>Your contributions will serve as experience when applying for potential jobs. I haven’t done this in practice personally, but its not unheard of for someone to say that they landed their current developer position just because they contributed to open source.</p>
+  </li>
+</ol>
+
+<p>Lastly and most importantly, you’re working on something bigger than you, something for the community. Something relied upon by other people and their projects. That in of itself is fulfilling. Its honestly one of the best ways you can give back.</p>]]></content><author><name></name></author><category term="ruby" /><summary type="html"><![CDATA[The path to land a tech job is documented online. Before the tech job market became a mess with AI and big tech lay offs, the path to becoming a software developer was pretty straightforward. Build projects, make a portfolio and then apply to jobs. This was applicable whether you’re self taught or whether you went to a boot camp. Most self taught developers would choose a tutorial in their language of choice and build along with their instructor. After working through this tutorial for whatever duration of time, at the end, they would have a project to show off, an end product of having worked through said tutorial.]]></summary></entry><entry><title type="html">An Introduction To Ruby Code blocks Part 2</title><link href="http://localhost:4000/ruby/2025/04/18/an-introduction-to-ruby-code-blocks-part-2.html" rel="alternate" type="text/html" title="An Introduction To Ruby Code blocks Part 2" /><published>2025-04-18T01:18:00+03:00</published><updated>2025-04-18T01:18:00+03:00</updated><id>http://localhost:4000/ruby/2025/04/18/an-introduction-to-ruby-code-blocks-part-2</id><content type="html" xml:base="http://localhost:4000/ruby/2025/04/18/an-introduction-to-ruby-code-blocks-part-2.html"><![CDATA[<h2 id="shortcomings-of-implicit-code-blocks">Shortcomings of Implicit Code Blocks</h2>
+<p>In Part 1 of this series, examination of the shortcomings of  Implicit code blocks in Ruby highlighted the fact that, they can’t be stored and therefore manipulated or passed around to be run later. They have to be executed instantly and inside the method to which they are passed.</p>
+
+<p>Consider these 2 methods below both of which are meant to solve the same problem, printing someone’s full name:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">full_name</span>
+  <span class="n">first</span> <span class="o">=</span> <span class="s2">"John"</span>
+  <span class="n">last</span> <span class="o">=</span> <span class="s2">"Doe"</span>
+  <span class="k">yield</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span> <span class="k">if</span> <span class="nb">block_given?</span>
+<span class="k">end</span>
+
+<span class="n">full_name</span> <span class="k">do</span> <span class="o">|</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="o">|</span>
+  <span class="s2">"</span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+
+<span class="c1">#OUTPUT</span>
+<span class="s2">"John Doe"</span>
+</code></pre></div></div>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">full_name</span><span class="p">(</span><span class="o">&amp;</span><span class="n">first_name</span><span class="p">)</span>
+  <span class="n">firstname</span> <span class="o">=</span> <span class="n">first_name</span><span class="p">.</span><span class="nf">call</span>
+  <span class="n">fullname</span> <span class="o">=</span> <span class="n">firstname</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="s2">"Doe"</span>
+<span class="k">end</span>
+
+<span class="n">full_name</span> <span class="k">do</span> 
+  <span class="s2">"John"</span>
+<span class="k">end</span>
+
+<span class="c1">#OUTPUT</span>
+<span class="s2">"John Doe"</span>
+</code></pre></div></div>
+
+<p>The first solution(method) employs yield and specifically the concept of Implicit code blocks in Ruby to solve the problem while the second utilizes Explicit code blocks to solve the same problem. For this exact problem, both these solutions are okay. However for use cases when we need to “<em>capture</em>” and “<em>save the code block for later execution</em>”, the limitations of solution 1 which utilizes Implicit code blocks become evident very quickly and we’ll see that the second solution i.e. the one employing explicit code blocks is better for the reasons highlighted below.</p>
+<h2 id="comparison-between-explicit-and-implicit-code-blocks-in-ruby">Comparison between Explicit and Implicit Code Blocks in Ruby</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Implicit Code blocks(yield version)</th>
+      <th>Explicit code blocks(Proc version)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Can the block be stored?</td>
+      <td>No. Can only be used inside the method</td>
+      <td>Yes. Can be stored as a Proc object.</td>
+    </tr>
+    <tr>
+      <td>Can the block re-used outside the method?</td>
+      <td>No. Only called within the method</td>
+      <td>Yes. Since explicit code blocks can be stored as Proc objects, these Proc objects can be used outside the method.</td>
+    </tr>
+    <tr>
+      <td>Can the block be passed to other method?</td>
+      <td>No. Only associated with the method to which its passed</td>
+      <td>Yes. Explicit code blocks captured as Proc objects can be passed to other methods.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="behind-the-scenes-of-how-ruby-handles-explicit-code-blocks">Behind the scenes of how Ruby handles Explicit code blocks</h2>
+
+<p>Lets modify the fullname method a bit:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">full_name</span><span class="p">(</span><span class="o">&amp;</span><span class="n">first_name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="n">first_name</span><span class="p">.</span><span class="nf">class</span>
+  <span class="n">firstname</span> <span class="o">=</span> <span class="n">first_name</span><span class="p">.</span><span class="nf">call</span>
+  <span class="n">fullname</span> <span class="o">=</span> <span class="n">firstname</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="s2">"Doe"</span>
+<span class="k">end</span>
+<span class="n">full_name</span> <span class="k">do</span> 
+  <span class="s2">"John"</span>
+<span class="k">end</span>
+
+<span class="c1">#OUTPUT</span>
+<span class="no">Proc</span>
+<span class="s2">"John Doe"</span> 
+</code></pre></div></div>
+
+<p>When we pass a block to the above method, we can see that on checking for the class of the “first_name” object, the output is  “Proc” signifying that this is a Proc object. Here’s a step by step flow of how that happens:</p>
+
+<ul>
+  <li>Explicit code block passed to the full_name method is converted into a Proc object.</li>
+  <li>Proc object is captured and assigned to and stored in the first_name parameter</li>
+  <li>Inside the method, we call the Proc using:
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">first_name</span><span class="p">.</span><span class="nf">call</span>
+</code></pre></div>    </div>
+    <p>The above line executes the code block and returns the result of executing the explicit code block we passed to the method initially.</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>Call is a ruby method defined for Proc objects and since first_name is a Proc object, we can therefore call the “call” method on it.</p>
+</blockquote>
+
+<ul>
+  <li>We assign the result of executing the explicit code block to a variable named “firstname”</li>
+  <li>Using string concatenation, we add a string named “Doe” i.e the second name, to finally get the full name which is returned to us in the terminal. 
+The conversion of an explicit code block into a Proc object is the reason for the flexibility associated with Explicit code blocks in ruby. Since we end up with a Proc object, we can use this object for all sorts of things from passing it to other methods as well as executing it at a later point in time.</li>
+</ul>
+
+<h2 id="the-importance-of-the-ampersand">The Importance of the Ampersand(&amp;)</h2>
+<p>In case you’ve been observant, when defining the full_name method, we prefixed the “first_name” parameter with a &amp; symbol commonly known as the Ampersand symbol. 
+By prefixing the “first_name” parameter with an Ampersand(&amp;) we let ruby know that a code block passed to the full_name method should be converted to a Proc object. Without it, we get an error below:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mo">036</span> <span class="o">&gt;</span> <span class="k">def</span> <span class="nf">full_name</span><span class="p">(</span><span class="n">first_name</span><span class="p">)</span>
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mo">037</span> <span class="o">&gt;</span>   <span class="n">firstname</span> <span class="o">=</span> <span class="n">first_name</span><span class="p">.</span><span class="nf">call</span>
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mo">03</span><span class="mi">8</span> <span class="o">&gt;</span>   <span class="n">full_name</span> <span class="o">=</span> <span class="n">firstname</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="s2">"Doe"</span>
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mo">03</span><span class="mi">9</span> <span class="o">&gt;</span> <span class="k">end</span>
+ <span class="o">=&gt;</span> <span class="ss">:full_name</span> 
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mo">040</span> <span class="o">&gt;</span> <span class="n">full_name</span> <span class="k">do</span> 
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mo">041</span> <span class="o">&gt;</span>   <span class="s2">"John"</span>
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mo">042</span> <span class="o">&gt;</span> <span class="k">end</span>
+<span class="p">(</span><span class="n">irb</span><span class="p">):</span><span class="mi">36</span><span class="ss">:in</span> <span class="sb">`full_name': wrong number of arguments (given 0, expected 1) (ArgumentError)
+	from (irb):40:in `</span><span class="o">&lt;</span><span class="n">main</span><span class="o">&gt;</span><span class="s1">'
+	from /usr/share/rvm/gems/ruby-3.2.6/gems/irb-1.15.1/exe/irb:9:in `&lt;top (required)&gt;'</span>
+	<span class="n">from</span> <span class="sr">/usr/s</span><span class="n">hare</span><span class="o">/</span><span class="n">rvm</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">ruby</span><span class="o">-</span><span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">irb</span><span class="p">:</span><span class="mi">25</span><span class="ss">:in</span> <span class="sb">`load'
+	from /usr/share/rvm/gems/ruby-3.2.6/bin/irb:25:in `</span><span class="o">&lt;</span><span class="n">main</span><span class="o">&gt;</span><span class="s1">'
+	from /usr/share/rvm/gems/ruby-3.2.6/bin/ruby_executable_hooks:22:in `eval'</span>
+	<span class="n">from</span> <span class="sr">/usr/s</span><span class="n">hare</span><span class="o">/</span><span class="n">rvm</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">ruby</span><span class="o">-</span><span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">ruby_executable_hooks</span><span class="p">:</span><span class="mi">22</span><span class="ss">:in</span> <span class="sb">`&lt;main&gt;'
+3.2.6 :043 &gt; 
+</span></code></pre></div></div>
+
+<p>Without the ampersand, Ruby no longer knows how to handle the code block passed to it and expects the full_name method to  be called like any other method in Ruby. And since we defined the full_name method to have one parameter, namely the first_name, Ruby expects that the method should be called along with one argument, which is exactly why we get the error above. In simple terms, Ruby is saying:</p>
+
+<p>“<em>Hey, you defined the “full_name” method to take an argument but you’ve called the “full_name” method without providing an argument.</em>”</p>
+
+<p>There is a way for Ruby to understand that a block passed to a given method should be handled as an explicit code block even though you’ve left out the Ampersand.</p>
+
+<p>Consider the code below:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">full_name</span><span class="p">(</span><span class="n">first_name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="n">first_name</span><span class="p">.</span><span class="nf">class</span>
+  <span class="n">firstname</span> <span class="o">=</span> <span class="n">first_name</span><span class="p">.</span><span class="nf">call</span>
+  <span class="n">fullname</span> <span class="o">=</span> <span class="n">firstname</span> <span class="o">+</span> <span class="s2">" "</span> <span class="o">+</span> <span class="s2">"Doe"</span>
+<span class="k">end</span>
+
+<span class="n">full_name</span><span class="p">(</span><span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="s2">"John"</span>
+<span class="k">end</span><span class="p">)</span>
+
+<span class="c1">#OUTPUT</span>
+<span class="no">Proc</span>
+ <span class="o">=&gt;</span> <span class="s2">"John Doe"</span>
+</code></pre></div></div>
+
+<p>In the above code, we see that the output is still the same as the initial “full_name” method regardless of the fact that we left out the Ampersand. The above code works because when passing the code block to the “full_name” method, we handled the conversion of the code block into a Proc object manually by calling Proc.new. 
+In the output we also notice that the first_name object is a Proc object meaning the conversion of the code block into a Proc object was successful.</p>
+
+<p>This highlights the importance of the Ampersand. For a given code block to be termed as an explicit code block, ruby has to convert it into a Proc object. This can be achieved either automatically(by prefixing the “first_name” parameter with the Ampersand(&amp;) and have Ruby handle the conversion of the code block into a Proc object behind the scenes as in the initial version of the full_name method) or manually where by we handle the conversion of the code block into a Proc object our selves by calling <strong>Proc.new</strong>. You can choose either based on what you prefer though my personal preference is to use the Ampersand as that’s one less thing to think about in case things go wrong.</p>
+
+<p>When passing single line code blocks to methods for example the “full_name” method, you can use the syntax below:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">full_name</span><span class="p">(</span><span class="no">Proc</span><span class="p">.</span><span class="nf">new</span><span class="p">{</span> <span class="s2">"John"</span> <span class="p">})</span>
+<span class="no">Proc</span>
+ <span class="o">=&gt;</span> <span class="s2">"John Doe"</span> 
+</code></pre></div></div>
+
+<p>The syntax above is equivalent to the one below and returns the same output.</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">full_name</span><span class="p">(</span><span class="no">Proc</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+  <span class="s2">"John"</span>
+<span class="k">end</span><span class="p">)</span>
+<span class="no">Proc</span>
+ <span class="o">=&gt;</span> <span class="s2">"John Doe"</span> 
+</code></pre></div></div>
+
+<p>And that marks the end of this post. In case you missed part 1 of the series, you can check it out <a href="https://zhephyn.github.io/ruby/2025/04/16/an-introduction-to-ruby-code-blocks-part-1.html">here</a>.</p>]]></content><author><name></name></author><category term="ruby" /><summary type="html"><![CDATA[Shortcomings of Implicit Code Blocks In Part 1 of this series, examination of the shortcomings of Implicit code blocks in Ruby highlighted the fact that, they can’t be stored and therefore manipulated or passed around to be run later. They have to be executed instantly and inside the method to which they are passed.]]></summary></entry><entry><title type="html">An Introduction To Ruby Code blocks part 1</title><link href="http://localhost:4000/ruby/2025/04/16/an-introduction-to-ruby-code-blocks-part-1.html" rel="alternate" type="text/html" title="An Introduction To Ruby Code blocks part 1" /><published>2025-04-16T10:30:20+03:00</published><updated>2025-04-16T10:30:20+03:00</updated><id>http://localhost:4000/ruby/2025/04/16/an-introduction-to-ruby-code-blocks-part-1</id><content type="html" xml:base="http://localhost:4000/ruby/2025/04/16/an-introduction-to-ruby-code-blocks-part-1.html"><![CDATA[<h2 id="my-first-ruby-problem">My First Ruby Problem</h2>
+
+<p>When i had started out to learn ruby, one of the earliest problems i was presented with was related to arrays. In this problem, you have an array. Then you have to iterate over that array such that you have each element of the array printed on its own line in the interpreter. For visual purposes, here is the problem plus its solution below implemented in irb.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">numbers</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">number</span><span class="o">|</span>
+  <span class="nb">puts</span> <span class="n">number</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>The output:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1
+2
+3
+ <span class="o">=&gt;</span> <span class="o">[</span>1, 2, 3]
+</code></pre></div></div>
+<p>The solution is pretty simple, you utilize the “each” method for the iteration. This method is available for all arrays as part of the Array class. In addition to this, the solution utilizes a do-end block which specifies what should be done for each element in the array. In our case, we just print each element on its line in the irb console, but there are endless possibilities regarding what you could do with an element you’ve iterated over.</p>
+
+<h2 id="enter-code-blocks">Enter Code Blocks</h2>
+
+<p>Unbeknownst to me back then, that do-end block has a specific term ruby programmers used to refer to it and it can do way more, than just printing out array elements to the console.</p>
+
+<p>The name of that do-end block is a code block, and to be specific about the kind of code block, since code blocks come in 2 variants, the code block in the array example above is an implicit code block. We’ll go over why it’s called an Implicit code block later on. But first, a short introduction to Ruby code blocks.</p>
+
+<p>Put simply a code block is an executable piece of code that tends to be associated with a given method. This method is responsible for executing the code block passed to it.</p>
+
+<h3 id="your-first-ruby-code-block">Your First Ruby Code Block</h3>
+
+<p>Let’s say you have a method below:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">my_method</span>
+  <span class="k">yield</span> <span class="k">if</span> <span class="nb">block_given?</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Then at any other place in your program, you have the code below:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">my_method</span> <span class="k">do</span>
+  <span class="nb">puts</span> <span class="s2">"This is the output   derived from executing the code block"</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>The above can also be written as:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">my_method</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s2">"This is the output derived from executing the code block"</span><span class="p">}</span>
+</code></pre></div></div>
+
+<p>When we run either of the examples above in the ruby interpreter, we’ll have the statement below as the output:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s2">"This is the output derived from executing the code block"</span>
+</code></pre></div></div>
+
+<h3 id="behind-the-scenes">Behind the scenes</h3>
+
+<p>So how did we arrive at this output:</p>
+
+<p>First and foremost, let’s examine the method. We defined a method named “my_method”. Inside the method, we have a yield keyword bound to an if statement.</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">yield</span> <span class="k">if</span> <span class="nb">block_given?</span>
+</code></pre></div></div>
+<p>Inside the method, we perform a conditional check. We evaluate whether a code block was passed to the “my_method” method using the block_given? method which evaluates to true or false. If the conditional check evaluates to true i.e a code block was passed when calling the method, we proceed to return the output of executing the code inside the code block. To return this output for the user to see in the interpreter, we use the yield keyword.</p>
+
+<p>All in all 2 things are crucial within this method for the desired functionality to be achieved:</p>
+<ul>
+  <li>The block_given? Method which evaluates to a Boolean and performs a conditional check.</li>
+  <li>yield which returns the output of executing the code inside the code block</li>
+</ul>
+
+<p>We can also write the same method as:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">my_method</span>
+  <span class="k">if</span> <span class="nb">block_given?</span>
+    <span class="k">yield</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Now onto the code block itself.
+This is responsible for the output we see in the interpreter. 
+So in the code above , what we are doing is, we call a method and pass a code-block to it. And since the method does a conditional check with the block_given? method to see if a code block was passed to the method when it was called, the “my_method” method knows exactly how to handle this situation.</p>
+
+<p>In the example above, so many moving parts are responsible for the output we end up seeing in the irb session. 
+Now a hypothetical, what would be the output of running this program if we don’t perform the conditional check?</p>
+
+<p>In case we defined the same method without the conditional check like below, then proceed to pass a code block to that method, we observe that no output is returned in the irb session.</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">my_method</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">my_method</span> <span class="k">do</span>
+  <span class="nb">puts</span> <span class="s2">"This is the output derived from executing the code block"</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Trying to run the above will result in “nil” as the output. This is because, as much as our syntax for passing a code block to my_method is correct, the method itself doesn’t know what to do with the code block, which is why we don’t get the expected output.
+The “nil” output wasn’t returned by the my_method, its pretty standard output.
+So to be more specific about what happened, when you pass a code block to a method that isn’t in the know about what it should do with the code block and proceed to call that method, nothing is executed and nothing is returned.</p>
+
+<h3 id="why-the-name-implicit-code-block">Why the name “Implicit code block”?</h3>
+
+<p>Take the example method below:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">say_name</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"Your name is </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>To have this method return a name of the current user, we simply call the method and pass in an argument of whatever name we want to return.</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">say_name</span><span class="p">(</span><span class="s2">"Newton"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Output:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">Your</span> <span class="nb">name</span> <span class="n">is</span> <span class="no">Newton</span>
+</code></pre></div></div>
+
+<p>Contrast the method above with the “my_method” method.</p>
+
+<p>The method “my_method” differs from the “say_name” method in 1 major way:
+When defining the “my_method” method, we didn’t specify any parameters for it. Because of this, when the method is called(along with the code block passed to it), the code block is not passed as an argument to the method. Since we call the method and pass a code block which isn’t treated by the method as an argument, this code block is referred to as an implicit code block.</p>
+
+<p>This poses a few implications:
+Because the code block is passed to the method not as an argument, what we can achieve with this code block is limited.</p>
+
+<p>Think about it, if we were able to pass the code block as an argument when calling the method, we would be able to associate this code block with a parameter which means we can store whatever is in the code block and therefore use it later instead of instantly. This specific kind of code block is an Explicit code block which we’ll look at in part 2 of this section.</p>
+
+<h2 id="a-closer-look-at-rubys-each-method">A Closer look at Ruby’s “each” method.</h2>
+
+<p>Like we mentioned earlier, the solution for the array problem used the “each” ruby method whose underlying operating principle is similar to that of Implicit code blocks in Ruby. We can confirm this by taking a look at the source of Ruby’s “each” method.</p>
+<pre><code class="language-C">VALUE
+rb_ary_each(VALUE ary)
+{
+  long i;
+  ary_verify(ary);
+  RETURN_SIZED_ENUMERATOR(ary, 0, 0, ary_enum_length);
+  for (i=0; i&lt;RARRAY_LEN(ary); i++) {
+    rb_yield(RARRAY_AREF(ary, i));
+  }
+  return ary;
+}
+</code></pre>
+<p>In this code, a couple things are happening but a few stand out.</p>
+
+<ol>
+  <li>The “each” method utilizes an equivalent of “yield” named “<strong>rb_yield</strong>”.</li>
+  <li><strong>RETURN_SIZED_ENUMERATOR</strong>  checks for the presence of a block similar like what the block_given? method employed by the method “my_method” does. 
+See the code attached below:</li>
+</ol>
+
+<pre><code class="language-C">#define RETURN_SIZED_ENUMERATOR(obj, argc, argv, size_fn) do { \
+  if (!rb_block_given_p()) \
+    return SIZED_ENUMERATOR(obj, argc, argv, size_fn); 
+} while (0)
+</code></pre>
+
+<p>In the above code, we have a function named <strong>rb_block_given_p()</strong> whose purpose is to check whether the current method, in this case the “each” method is given a block. The rb_block_given_p() function as well as the block_given? ruby method, are of a similar importance, that is to check whether a given method was passed a block.</p>
+
+<p>Based on the above findings, we can confidently say that the “each” ruby method operates based on the principle of implicit code blocks under the hood.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+<p>In case you’re interested, you read more about RETURN_SIZED_ENUMERATOR, ruby’s each method as well as the rb_block_given_p() by visiting the resources below:</p>
+<ol>
+  <li><a href="https://ruby-doc.org/3.4.1/Array.html#method-i-each">Each Ruby method</a></li>
+  <li><a href="https://docs.ruby-lang.org/capi/en/master/dc/d1b/include_2ruby_2internal_2intern_2enumerator_8h_source.html">RETURN_SIZED_ENUMERATOR macros</a></li>
+  <li><a href="https://docs.ruby-lang.org/capi/en/master/d7/d19/group__defmethod.html">rb_block_given_p function</a></li>
+</ol>
+
+<p>This part served as an introduction to implicit code blocks, and looked at the use cases for implicit code blocks which is iterating over elements in an array. In part 2, we’ll look at yet another type of Ruby code blocks named Explicit code blocks and highlight how this specific kind of code block solves the short comings of Implicit code blocks.</p>]]></content><author><name></name></author><category term="ruby" /><summary type="html"><![CDATA[My First Ruby Problem]]></summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/jekyll/update/2024/12/27/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2024-12-27T01:11:03+03:00</published><updated>2024-12-27T01:11:03+03:00</updated><id>http://localhost:4000/jekyll/update/2024/12/27/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2024/12/27/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+
+<p>Jekyll requires blog post files to be named according to the following format:</p>
+
+<p><code class="language-plaintext highlighter-rouge">YEAR-MONTH-DAY-title.MARKUP</code></p>
+
+<p>Where <code class="language-plaintext highlighter-rouge">YEAR</code> is a four-digit number, <code class="language-plaintext highlighter-rouge">MONTH</code> and <code class="language-plaintext highlighter-rouge">DAY</code> are both two-digit numbers, and <code class="language-plaintext highlighter-rouge">MARKUP</code> is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+
+<p>Jekyll also offers powerful support for code snippets:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
+<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+
+<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.]]></summary></entry></feed>
