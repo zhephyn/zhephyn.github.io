@@ -22,7 +22,7 @@ For a junior developer, contributing to open source is comparable to being throw
 
 The good news through out all this is that, **by the time that PR is merged, you'll be surprised at the sheer amount of stuff you didn't know when you started out**.  
 
-![Kafka on the shore quote](/_posts/assets/images/haruki-murakami-kafka-on-the-shore-quote.png)
+![Kafka on the shore quote](/assets/images/haruki-murakami-kafka-on-the-shore-quote.png)
 
 ## My first Open Source experience. 
 In the last quarter of 2024, i made my first open source contribution to a project called **Avo**. My thought process about how I would work through the assigned issue was naive in every sense. I imagined that i would create a new branch for the issue i was working on, make changes to the code to implement that feature, go to localhost:3000 in my browser to see if the feature works as expected, then push the PR and have that PR merged to the main branch. 
