@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "An Introduction To Ruby Code blocks part 1"
+title:  "An Introduction To Ruby Code blocks Part 1"
 date:   2025-04-16 10:30:20 +0300
 categories: ruby
 ---

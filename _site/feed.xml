@@ -1,4 +1,764 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-07-10T17:09:32+03:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Thumbs Up Rails</title><subtitle>Personal Blog and website with blog posts about the Ruby on Rails framework  Topics include Hotwire and Stimulus JS how to guides, Kamal deployment.</subtitle><entry><title type="html">How to prevent name collisions when naming your Ruby classes</title><link href="http://localhost:4000/ruby/2025/07/10/how-to-prevent-conflicts-when-naming-your-ruby-classes.html" rel="alternate" type="text/html" title="How to prevent name collisions when naming your Ruby classes" /><published>2025-07-10T15:49:47+03:00</published><updated>2025-07-10T15:49:47+03:00</updated><id>http://localhost:4000/ruby/2025/07/10/how-to-prevent-conflicts-when-naming-your-ruby-classes</id><content type="html" xml:base="http://localhost:4000/ruby/2025/07/10/how-to-prevent-conflicts-when-naming-your-ruby-classes.html"><![CDATA[<h2 id="problem">Problem:</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-08-15T01:46:28+03:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Thumbs Up Rails</title><subtitle>Personal Blog and website with blog posts about the Ruby on Rails framework  Topics include Hotwire and Stimulus JS how to guides, Kamal deployment.</subtitle><entry><title type="html">Annotating models in your rails app with the rails-lens gem</title><link href="http://localhost:4000/tutorial/2025/08/12/annotating-your-models-with-the-rails-lens-gem.html" rel="alternate" type="text/html" title="Annotating models in your rails app with the rails-lens gem" /><published>2025-08-12T23:10:12+03:00</published><updated>2025-08-12T23:10:12+03:00</updated><id>http://localhost:4000/tutorial/2025/08/12/annotating-your-models-with-the-rails-lens-gem</id><content type="html" xml:base="http://localhost:4000/tutorial/2025/08/12/annotating-your-models-with-the-rails-lens-gem.html"><![CDATA[<p>At some point in a Rails project, you’ll have to go through a period of understanding the models and the relationships inside them. This will be more likely before you start contributing to a rails open source project or at your new job. This part of onboarding usually involves a dauting process of going back and forth between the model files and the <code class="language-plaintext highlighter-rouge">schema.rb</code> file with the sole purpose of mapping relationships between database tables as well as establishing what the models them selves are capable of. Luckily for us, there is a better way to achieve the same, and with less frustration by using the <code class="language-plaintext highlighter-rouge">rails-lens</code> gem.</p>
+
+<p>Rails Lens will annotate model files in your app and highlight relationships between database tables in your application, all by running a single command. For purposes of this tutorial, I’ve set up a sample Rails app.</p>
+
+<p>This rails app is the usual rails blog application. It has a couple models namely Post, User, Comment and Category. These models have various associations between each other in the sense that, a post belongs to a user, has many comments and belongs to a category. Attached below are the model files.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code></code></pre></div></div>
+
+<p>To set up rails lens in the application, add the line below to your gem file. I’ve chosen to install version 
+<code class="language-plaintext highlighter-rouge">0.2.6</code></p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code></code></pre></div></div>
+
+<p>Run <code class="language-plaintext highlighter-rouge">bundle install</code></p>
+
+<p>If the installation is successful, you’ll see the output below in your terminal when you run <code class="language-plaintext highlighter-rouge">bundle info rails_lens</code></p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="o">*</span> <span class="n">rails_lens</span> <span class="p">(</span><span class="mf">0.2</span><span class="o">.</span><span class="mi">6</span><span class="p">)</span>
+	<span class="no">Summary</span><span class="p">:</span> <span class="no">Comprehensive</span> <span class="no">Rails</span> <span class="n">application</span> <span class="n">visualization</span> <span class="ow">and</span> <span class="n">annotation</span>
+	<span class="no">Homepage</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">github</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">seuros</span><span class="o">/</span><span class="n">rails_lens</span>
+	<span class="no">Source</span> <span class="no">Code</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">github</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">seuros</span><span class="o">/</span><span class="n">rails_lens</span>
+	<span class="no">Changelog</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">github</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">seuros</span><span class="o">/</span><span class="n">rails_lens</span><span class="o">/</span><span class="n">blob</span><span class="o">/</span><span class="n">main</span><span class="o">/</span><span class="no">CHANGELOG</span><span class="p">.</span><span class="nf">md</span>
+	<span class="no">Path</span><span class="p">:</span> <span class="sr">/usr/s</span><span class="n">hare</span><span class="o">/</span><span class="n">rvm</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">ruby</span><span class="o">-</span><span class="mf">3.3</span><span class="o">.</span><span class="mi">4</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">rails_lens</span><span class="o">-</span><span class="mf">0.2</span><span class="o">.</span><span class="mi">6</span>
+</code></pre></div></div>
+
+<p>Note: At the time of writing this article, you have to specify the version of rails-lens you want to be installed. By just adding <code class="language-plaintext highlighter-rouge">gem 'rails-lens'</code> to your gem file and running <code class="language-plaintext highlighter-rouge">bundle install</code>, the version that ends up being installed is a placeholder version named <code class="language-plaintext highlighter-rouge">0.0.0</code>. With this version, you’ll run into the error below when you run the command responsible for annotation.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">bundler: </span><span class="n">command</span> <span class="ow">not</span> <span class="ss">found: </span><span class="n">rails_lens</span>
+<span class="no">Install</span> <span class="n">missing</span> <span class="n">gem</span> <span class="n">executables</span> <span class="n">with</span> <span class="sb">`bundle install`</span>
+</code></pre></div></div>
+
+<p>After installing the <code class="language-plaintext highlighter-rouge">rails-lens</code> gem, now onto the fun part, annotation.</p>
+
+<p>To annotate all the model files in the application, run the command below:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rails_lens</span> <span class="n">annotate</span>
+</code></pre></div></div>
+<p>The above command adds annotations the 4 model files in our rails app.</p>
+
+<p>Let’s take a quick look at the <code class="language-plaintext highlighter-rouge">post.rb</code> model file.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># &lt;rails-lens:schema:begin&gt;</span>
+<span class="c1"># table = "posts"</span>
+<span class="c1"># database_dialect = "SQLite"</span>
+<span class="c1">#</span>
+<span class="c1"># columns = [</span>
+<span class="c1">#   { name = "id", type = "integer", primary_key = true, nullable = false },</span>
+<span class="c1">#   { name = "title", type = "text", nullable = true },</span>
+<span class="c1">#   { name = "body", type = "text", nullable = true },</span>
+<span class="c1">#   { name = "category_id", type = "integer", nullable = false },</span>
+<span class="c1">#   { name = "user_id", type = "integer", nullable = false },</span>
+<span class="c1">#   { name = "created_at", type = "datetime", nullable = false },</span>
+<span class="c1">#   { name = "updated_at", type = "datetime", nullable = false }</span>
+<span class="c1"># ]</span>
+<span class="c1">#</span>
+<span class="c1"># indexes = [</span>
+<span class="c1">#   { name = "index_posts_on_user_id", columns = ["user_id"] },</span>
+<span class="c1">#   { name = "index_posts_on_category_id", columns = ["category_id"] }</span>
+<span class="c1"># ]</span>
+<span class="c1">#</span>
+<span class="c1"># foreign_keys = [</span>
+<span class="c1">#   { column = "user_id", references_table = "users", references_column = "id" },</span>
+<span class="c1">#   { column = "category_id", references_table = "categories", references_column = "id" }</span>
+<span class="c1"># ]</span>
+<span class="c1">#</span>
+<span class="c1"># == Notes</span>
+<span class="c1"># - Association 'comments' should specify inverse_of</span>
+<span class="c1"># - Association 'comments' has N+1 query risk. Consider using includes/preload</span>
+<span class="c1"># - Column 'title' should probably have NOT NULL constraint</span>
+<span class="c1"># - Column 'body' should probably have NOT NULL constraint</span>
+<span class="c1"># - Large text column 'title' is frequently queried - consider separate storage</span>
+<span class="c1"># - Large text column 'body' is frequently queried - consider separate storage</span>
+<span class="c1"># &lt;rails-lens:schema:end&gt;</span>
+
+
+<span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_many</span> <span class="ss">:comments</span><span class="p">,</span> <span class="ss">dependent: :destroy</span>
+  <span class="n">belongs_to</span> <span class="ss">:category</span>
+  <span class="n">belongs_to</span> <span class="ss">:user</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<p>With the lines below, we can identify that this is a schema annotation for the Posts table in a rails application using SQlite for the database.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># &lt;rails-lens:schema:begin&gt;</span>
+<span class="c1"># table = "posts"</span>
+<span class="c1"># database_dialect = "SQLite"</span>
+<span class="c1"># rest of annotation ommitted for brevity</span>
+<span class="c1"># &lt;rails-lens:schema:end&gt;</span>
+</code></pre></div></div>
+
+<p>The annotation also lets us know about the columns and indexes of the Posts table under the <code class="language-plaintext highlighter-rouge">columns</code> and <code class="language-plaintext highlighter-rouge">indexes</code> sections. Each of the columns of the Post table in the annotation is displayed with either <code class="language-plaintext highlighter-rouge">nullable = false</code> or <code class="language-plaintext highlighter-rouge">nullable = true</code> highlighting whether for the value of a given column can be <code class="language-plaintext highlighter-rouge">null</code> or not at the time of saving a post in the database.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># columns = [</span>
+<span class="c1">#   { name = "id", type = "integer", primary_key = true, nullable = false },</span>
+<span class="c1">#   { name = "title", type = "text", nullable = true },</span>
+<span class="c1">#   { name = "body", type = "text", nullable = true },</span>
+<span class="c1">#   { name = "category_id", type = "integer", nullable = false },</span>
+<span class="c1">#   { name = "user_id", type = "integer", nullable = false },</span>
+<span class="c1">#   { name = "created_at", type = "datetime", nullable = false },</span>
+<span class="c1">#   { name = "updated_at", type = "datetime", nullable = false }</span>
+<span class="c1"># ]</span>
+<span class="c1">#</span>
+<span class="c1"># indexes = [</span>
+<span class="c1">#   { name = "index_posts_on_user_id", columns = ["user_id"] },</span>
+<span class="c1">#   { name = "index_posts_on_category_id", columns = ["category_id"] }</span>
+<span class="c1"># ]</span>
+</code></pre></div></div>
+<p>The <code class="language-plaintext highlighter-rouge">foreign_keys</code> section of the annotation highlights the associations between the Post model and other models in the application namely the User and Category.</p>
+
+<p>We get extra notes as part of the annotation as well and this is where <code class="language-plaintext highlighter-rouge">rails-lens</code> shines compared to other annotation gems.</p>
+
+<p>As part of the output you can see that <code class="language-plaintext highlighter-rouge">rails-lens</code> notified us of some ways in which the schema and therefore our application could use some improvements. This includes the N+1 query risk associated with the Comment model.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># - Association 'comments' has N+1 query risk. Consider using includes/preload</span>
+</code></pre></div></div>
+
+<p>Also you might remember that aas part of the columns section of the annotation, the title and body columns had <code class="language-plaintext highlighter-rouge">nullable</code> set to true which means that its possible to create a post without a title or a body. This is not ideal as we would want every post within the application to have a title and a body. Rails lens lets us know about this as well.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># - Column 'title' should probably have NOT NULL constraint</span>
+<span class="c1"># - Column 'body' should probably have NOT NULL constraint</span>
+</code></pre></div></div>
+<p>And now that we know about it, we can proceed to address it whether by adding a validation or any other approach.</p>
+
+<p>Lastly Rails lens lets us know of the potential impacts on performance we many run into if we have so many records in the application and it doesn’t stop at that, it tells us what could potentially cause performance problems and what we can do to solve this.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># - Large text column 'title' is frequently queried - consider separate storage</span>
+<span class="c1"># - Large text column 'body' is frequently queried - consider separate storage</span>
+</code></pre></div></div>
+<p>And there you have it, we were able to get information about the models in the application, all without constantly going back and forth between the model files and the <code class="language-plaintext highlighter-rouge">schema.rb</code> file.</p>
+
+<p>The annotated Comment, User and Category models are attached below.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># &lt;rails-lens:schema:begin&gt;</span>
+<span class="c1"># table = "users"</span>
+<span class="c1"># database_dialect = "SQLite"</span>
+<span class="c1">#</span>
+<span class="c1"># columns = [</span>
+<span class="c1">#   { name = "id", type = "integer", primary_key = true, nullable = false },</span>
+<span class="c1">#   { name = "name", type = "string", nullable = true },</span>
+<span class="c1">#   { name = "email", type = "string", nullable = true },</span>
+<span class="c1">#   { name = "created_at", type = "datetime", nullable = false },</span>
+<span class="c1">#   { name = "updated_at", type = "datetime", nullable = false }</span>
+<span class="c1"># ]</span>
+<span class="c1">#</span>
+<span class="c1"># == Notes</span>
+<span class="c1"># - Column 'name' should probably have NOT NULL constraint</span>
+<span class="c1"># - Column 'email' should probably have NOT NULL constraint</span>
+<span class="c1"># - String column 'name' has no length limit - consider adding one</span>
+<span class="c1"># - String column 'email' has no length limit - consider adding one</span>
+<span class="c1"># - Column 'email' is commonly used in queries - consider adding an index</span>
+<span class="c1"># &lt;rails-lens:schema:end&gt;</span>
+
+
+<span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># &lt;rails-lens:schema:begin&gt;</span>
+<span class="c1"># table = "comments"</span>
+<span class="c1"># database_dialect = "SQLite"</span>
+<span class="c1">#</span>
+<span class="c1"># columns = [</span>
+<span class="c1">#   { name = "id", type = "integer", primary_key = true, nullable = false },</span>
+<span class="c1">#   { name = "content", type = "text", nullable = true },</span>
+<span class="c1">#   { name = "post_id", type = "integer", nullable = false },</span>
+<span class="c1">#   { name = "created_at", type = "datetime", nullable = false },</span>
+<span class="c1">#   { name = "updated_at", type = "datetime", nullable = false }</span>
+<span class="c1"># ]</span>
+<span class="c1">#</span>
+<span class="c1"># indexes = [</span>
+<span class="c1">#   { name = "index_comments_on_post_id", columns = ["post_id"] }</span>
+<span class="c1"># ]</span>
+<span class="c1">#</span>
+<span class="c1"># foreign_keys = [</span>
+<span class="c1">#   { column = "post_id", references_table = "posts", references_column = "id" }</span>
+<span class="c1"># ]</span>
+<span class="c1">#</span>
+<span class="c1"># == Notes</span>
+<span class="c1"># - Association 'post' should specify inverse_of</span>
+<span class="c1"># - Column 'content' should probably have NOT NULL constraint</span>
+<span class="c1"># - Large text column 'content' is frequently queried - consider separate storage</span>
+<span class="c1"># &lt;rails-lens:schema:end&gt;</span>
+
+
+<span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">belongs_to</span> <span class="ss">:post</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># &lt;rails-lens:schema:begin&gt;</span>
+<span class="c1"># table = "categories"</span>
+<span class="c1"># database_dialect = "SQLite"</span>
+<span class="c1">#</span>
+<span class="c1"># columns = [</span>
+<span class="c1">#   { name = "id", type = "integer", primary_key = true, nullable = false },</span>
+<span class="c1">#   { name = "name", type = "string", nullable = true },</span>
+<span class="c1">#   { name = "created_at", type = "datetime", nullable = false },</span>
+<span class="c1">#   { name = "updated_at", type = "datetime", nullable = false }</span>
+<span class="c1"># ]</span>
+<span class="c1">#</span>
+<span class="c1"># == Notes</span>
+<span class="c1"># - Column 'name' should probably have NOT NULL constraint</span>
+<span class="c1"># - String column 'name' has no length limit - consider adding one</span>
+<span class="c1"># &lt;rails-lens:schema:end&gt;</span>
+
+
+<span class="k">class</span> <span class="nc">Category</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<p>Also, its possible to annotate specific model files using the command below;</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rails_lens</span> <span class="n">annotate</span> <span class="o">--</span><span class="n">model</span> <span class="no">Post</span> <span class="no">Comment</span>
+</code></pre></div></div>
+<p>To remove the annotations, run the command below:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rails_lens</span> <span class="n">remove</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="tutorial" /><summary type="html"><![CDATA[At some point in a Rails project, you’ll have to go through a period of understanding the models and the relationships inside them. This will be more likely before you start contributing to a rails open source project or at your new job. This part of onboarding usually involves a dauting process of going back and forth between the model files and the schema.rb file with the sole purpose of mapping relationships between database tables as well as establishing what the models them selves are capable of. Luckily for us, there is a better way to achieve the same, and with less frustration by using the rails-lens gem.]]></summary></entry><entry><title type="html">Refactoring If statements with a ternary operator</title><link href="http://localhost:4000/refactoring/2025/08/11/refactoring-if-statements-with-a-ternary-operator.html" rel="alternate" type="text/html" title="Refactoring If statements with a ternary operator" /><published>2025-08-11T23:53:47+03:00</published><updated>2025-08-11T23:53:47+03:00</updated><id>http://localhost:4000/refactoring/2025/08/11/refactoring-if-statements-with-a-ternary-operator</id><content type="html" xml:base="http://localhost:4000/refactoring/2025/08/11/refactoring-if-statements-with-a-ternary-operator.html"><![CDATA[<p>Junior ruby developers have this very strong compulsion to think of solving coding problems in terms of if statements. And before you come at me, I came to this realization simply because I’m a junior myself. This isn’t me trashing if statements as a problem solving approach. On the contrary, if statements are sometimes absolutely necessary and if you were to take a deep dive of some of the best rails/ruby code bases out there, you’ll notice that they employ if statements in multiple places.</p>
+
+<p>Take for example, you have a single condition and you have two desired outputs. One output is returned when the condition is true and the other is returned if the condition is false. It wouldn’t make sense for you to apply a complex technique for example like metaprogramming to implement this. A simple if statement would suffice.</p>
+
+<p>So we’ve established two things, one is that if statements are important. The second is that there are cases when a simple if statement will be the most appropriate approach for the problem you’re solving. Following these two realisations, in this post, we’ll look at one of the approaches of refactoring your if statements such that they look more “beautiful”. For those that have contributed to open source projects before, without even realizing, you might’ve been required to apply this technique to rewrite your if statements before your PR was merged. If that was you, this post will get you up to speed with what you probably did. So let’s dive right in.</p>
+
+<p>A ternary operator is a common approach to refactoring if statements in your Ruby project.</p>
+
+<p>Just like the if-statement its meant to refactor, the ternary operator consists of 3 parts namely:</p>
+
+<ul>
+  <li>A condition</li>
+  <li>what should be returned if the condition evaluates to true</li>
+  <li>what should be returned if the condition evaluates to false</li>
+</ul>
+
+<p>Having the components of the ternary operator in mind, we can visualize it to look like below:</p>
+
+<p><code class="language-plaintext highlighter-rouge">condition ? return this if condition is true : return this if condition is false</code></p>
+
+<p>Now that we know the structure of a ternary operator, let’s proceed to use it to refactor an if statement in actual code.</p>
+
+<p>Consider the method below:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">value</span>
+  <span class="n">stored_value</span> <span class="o">=</span> <span class="k">super</span>
+
+  <span class="k">if</span> <span class="vi">@display_code</span>
+    <span class="n">stored_value</span>
+  <span class="k">else</span>
+    <span class="n">countries</span><span class="p">[</span><span class="n">stored_value</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<p>Refactored using a ternary operator, the if statement in the above method would look like below:</p>
+
+<p><code class="language-plaintext highlighter-rouge">@display_code ? stored_value : countries[stored_value]</code></p>
+
+<p>Therefore the final method would look like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">value</span>
+  <span class="n">stored_value</span> <span class="o">=</span> <span class="k">super</span> 
+
+  <span class="vi">@display_code</span> <span class="p">?</span> <span class="n">stored_value</span> <span class="p">:</span> <span class="n">countries</span><span class="p">[</span><span class="n">stored_value</span><span class="p">]</span> 
+<span class="k">end</span>
+</code></pre></div></div>
+<p>With the ternary operator, we managed to refactor the if statement in the method to be more cleaner and maintainable.</p>
+
+<p>I applied this technique as part of a contribution I made into Avo and in case you are interested in learning more about the context of this PR, consider checking it out here.</p>
+
+<p>https://github.com/avo-hq/avo/pull/4005</p>]]></content><author><name></name></author><category term="refactoring" /><summary type="html"><![CDATA[Junior ruby developers have this very strong compulsion to think of solving coding problems in terms of if statements. And before you come at me, I came to this realization simply because I’m a junior myself. This isn’t me trashing if statements as a problem solving approach. On the contrary, if statements are sometimes absolutely necessary and if you were to take a deep dive of some of the best rails/ruby code bases out there, you’ll notice that they employ if statements in multiple places.]]></summary></entry><entry><title type="html">Refactoring metaprogramming even further</title><link href="http://localhost:4000/refactoring/2025/08/07/refactoring-metaprogramming-even-futher.html" rel="alternate" type="text/html" title="Refactoring metaprogramming even further" /><published>2025-08-07T23:53:47+03:00</published><updated>2025-08-07T23:53:47+03:00</updated><id>http://localhost:4000/refactoring/2025/08/07/refactoring-metaprogramming-even-futher</id><content type="html" xml:base="http://localhost:4000/refactoring/2025/08/07/refactoring-metaprogramming-even-futher.html"><![CDATA[<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">unless</span> <span class="k">defined?</span> <span class="no">VIEW_METHODS_MAPPING</span>
+  <span class="no">VIEW_METHODS_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">index: </span><span class="p">[</span><span class="ss">:index_fields</span><span class="p">,</span> <span class="ss">:display_fields</span><span class="p">],</span>
+    <span class="ss">show: </span><span class="p">[</span><span class="ss">:show_fields</span><span class="p">,</span> <span class="ss">:display_fields</span><span class="p">],</span>
+    <span class="ss">edit: </span><span class="p">[</span><span class="ss">:edit_fields</span><span class="p">,</span> <span class="ss">:form_fields</span><span class="p">],</span>
+    <span class="ss">update: </span><span class="p">[</span><span class="ss">:edit_fields</span><span class="p">,</span> <span class="ss">:form_fields</span><span class="p">],</span>
+    <span class="ss">new: </span><span class="p">[</span><span class="ss">:new_fields</span><span class="p">,</span> <span class="ss">:form_fields</span><span class="p">],</span>
+    <span class="ss">create: </span><span class="p">[</span><span class="ss">:new_fields</span><span class="p">,</span> <span class="ss">:form_fields</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="k">end</span>
+      
+<span class="k">unless</span> <span class="k">defined?</span> <span class="no">VIEW_CARDS_MAPPING</span>
+  <span class="no">VIEW_CARDS_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">index: </span><span class="p">[</span><span class="ss">:index_cards</span><span class="p">,</span> <span class="ss">:display_cards</span><span class="p">],</span>
+    <span class="ss">show: </span><span class="p">[</span><span class="ss">:show_cards</span><span class="p">,</span> <span class="ss">:display_cards</span><span class="p">]</span>
+    <span class="ss">edit: </span><span class="p">[</span><span class="ss">:edit_cards</span><span class="p">,</span> <span class="ss">:form_cards</span><span class="p">],</span>
+    <span class="ss">update: </span><span class="p">[</span><span class="ss">:edit_cards</span><span class="p">,</span> <span class="ss">:form_cards</span><span class="p">],</span>
+    <span class="ss">new: </span><span class="p">[</span><span class="ss">:new_cards</span><span class="p">,</span> <span class="ss">:form_cards</span><span class="p">],</span>
+    <span class="ss">create: </span><span class="p">[</span><span class="ss">:new_cards</span><span class="p">,</span> <span class="ss">:form_cards</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">fetch_fields</span>
+  
+  <span class="n">possible_methods_for_view</span> <span class="o">=</span> <span class="no">VIEW_METHODS_MAPPING</span><span class="p">[</span><span class="n">view</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
+  
+  <span class="n">possible_methods_for_view</span><span class="o">&amp;</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">method_for_view</span><span class="o">|</span>
+    <span class="k">return</span> <span class="nb">send</span><span class="p">(</span><span class="n">method_for_view</span><span class="p">)</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="n">method_for_view</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">fields</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">fetch_cards</span>
+  <span class="n">possible_methods_for_view</span> <span class="o">=</span> <span class="no">VIEW_CARDS_MAPPING</span><span class="p">[</span><span class="n">view</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
+
+  <span class="n">possible_methods_for_view</span><span class="o">&amp;</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">method_for_view</span><span class="o">|</span>
+    <span class="k">return</span> <span class="nb">send</span><span class="p">(</span><span class="n">method_for_view</span><span class="p">)</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="n">method_for_view</span><span class="p">)</span>
+  <span class="k">end</span>
+  
+  <span class="n">cards</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<p>The code above applies a technique called metaprogramming to generate a myriad of methods ending in the “_fields” or “_cards” suffixes based on the current view. Take for example, the index view, the code generates 2 methods ending in the “_fields” suffix. These are; <code class="language-plaintext highlighter-rouge">index_fields</code> and <code class="language-plaintext highlighter-rouge">display_fields</code>. Using either of these methods, we can define which fields are displayed on the index view of a given resource.</p>
+
+<p>Take for example we have a post resource. If we want to display the title of the post along with its cover photo on the index page, we can achive this with the following code inside the post resource.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Avo::Resources::Post</span> <span class="o">&lt;</span> <span class="no">Avo</span><span class="o">::</span><span class="no">BaseResource</span>
+
+  <span class="k">def</span> <span class="nf">index_fields</span>
+   <span class="n">field</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">as: :text</span>
+   <span class="n">field</span> <span class="ss">:cover_photo</span><span class="p">,</span> <span class="ss">as: :file</span>
+  <span class="k">end</span>
+
+<span class="k">end</span>
+</code></pre></div></div>
+<p>When we navigate to the index page of the Post resource, these two fields will be displayed. And for those unfarmiliar with Avo’s DSL, what this means is that, we’ll see both title and the cover photo displayed on the index page for each individual post.</p>
+
+<p>The same kind of thinking applies when thinking about the methods ending in the “_cards” suffix. As part of a card, we can define some extra information we’d want to display for a resource other than the fields. Take an example of the post resource from before, assuming we want to display the name of the creator of agiven post and the date on which a particular post was created, we can use a card for this.</p>
+
+<p>If we want this card to be displayed on the index page, the metaprogramming code above provides us with a method named <code class="language-plaintext highlighter-rouge">index_cards</code>. With this method, we can define what “information” is displayed as part of the card. Something like below:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Avo::Resources::Post</span> <span class="o">&lt;</span> <span class="no">Avo</span><span class="o">::</span><span class="no">BaseResource</span>
+  <span class="k">def</span> <span class="nf">index_cards</span>
+    <span class="n">card</span> <span class="no">Avo</span><span class="o">::</span><span class="no">Cards</span><span class="o">::</span><span class="no">ExtraPostInformation</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<p>Then we’d define the information that get’s displayed on the card. For this, we’d use a specific kind of card called a Partial card.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Avo::Cards::ExtraPostInformation</span> <span class="o">&lt;</span> <span class="no">Avo</span><span class="o">::</span><span class="no">Cards</span><span class="o">::</span><span class="no">PartialCard</span>
+    <span class="c1"># code to display name of post creator</span>
+    <span class="c1"># code to display the date of creation of a post</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<p>With the above code, the card will be displayed on the Index page of the post resource with our defined information namely the Post creator’s name and the date of creation of the Post.</p>
+
+<p>Now that you’re up to speed with what the code does, we’ll proceed to refactoring it. In case you haven’t noticed, the above code contains a duplication.</p>
+
+<p>Taking a look at the <code class="language-plaintext highlighter-rouge">VIEW_METHODS_MAPPING</code> and the <code class="language-plaintext highlighter-rouge">VIEW_CARDS_MAPPING</code>, we notice that these two mappings are almost identical, with the only difference being the fact suffix i.e. <code class="language-plaintext highlighter-rouge">_cards</code> and <code class="language-plaintext highlighter-rouge">_fields</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">VIEW_METHODS_MAPPING</code>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">unless</span> <span class="k">defined?</span> <span class="no">VIEW_METHODS_MAPPING</span>
+  <span class="no">VIEW_METHODS_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">index: </span><span class="p">[</span><span class="ss">:index_fields</span><span class="p">,</span> <span class="ss">:display_fields</span><span class="p">],</span>
+    <span class="ss">show: </span><span class="p">[</span><span class="ss">:show_fields</span><span class="p">,</span> <span class="ss">:display_fields</span><span class="p">],</span>
+    <span class="ss">edit: </span><span class="p">[</span><span class="ss">:edit_fields</span><span class="p">,</span> <span class="ss">:form_fields</span><span class="p">],</span>
+    <span class="ss">update: </span><span class="p">[</span><span class="ss">:edit_fields</span><span class="p">,</span> <span class="ss">:form_fields</span><span class="p">],</span>
+    <span class="ss">new: </span><span class="p">[</span><span class="ss">:new_fields</span><span class="p">,</span> <span class="ss">:form_fields</span><span class="p">],</span>
+    <span class="ss">create: </span><span class="p">[</span><span class="ss">:new_fields</span><span class="p">,</span> <span class="ss">:form_fields</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">VIEW_CARDS_MAPPING</code>:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">unless</span> <span class="k">defined?</span> <span class="no">VIEW_CARDS_MAPPING</span>
+  <span class="no">VIEW_CARDS_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">index: </span><span class="p">[</span><span class="ss">:index_cards</span><span class="p">,</span> <span class="ss">:display_cards</span><span class="p">],</span>
+    <span class="ss">show: </span><span class="p">[</span><span class="ss">:show_cards</span><span class="p">,</span> <span class="ss">:display_cards</span><span class="p">],</span>
+    <span class="ss">edit: </span><span class="p">[</span><span class="ss">:edit_cards</span><span class="p">,</span> <span class="ss">:form_cards</span><span class="p">],</span>
+    <span class="ss">update: </span><span class="p">[</span><span class="ss">:edit_cards</span><span class="p">,</span> <span class="ss">:form_cards</span><span class="p">],</span>
+    <span class="ss">new: </span><span class="p">[</span><span class="ss">:new_cards</span><span class="p">,</span> <span class="ss">:form_cards</span><span class="p">],</span>
+    <span class="ss">create: </span><span class="p">[</span><span class="ss">:new_cards</span><span class="p">,</span> <span class="ss">:form_cards</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>We could refactor these two mappings into a single mapping thereby doing away with the duplication.
+Since the end goal of this metaprogramming functionality is to generate methods, opting for the name of the mapping to be <code class="language-plaintext highlighter-rouge">VIEW_METHODS_MAPPING</code> makes more sense compared to <code class="language-plaintext highlighter-rouge">VIEW_CARDS_MAPPING</code>.</p>
+
+<p>The refactored code for the mapping will look like below:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">unless</span> <span class="k">defined?</span> <span class="no">VIEW_METHODS_MAPPING</span>
+  <span class="no">VIEW_METHODS_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">index: </span><span class="p">[</span><span class="ss">:index</span><span class="p">,</span> <span class="ss">:display</span><span class="p">],</span>
+    <span class="ss">show: </span><span class="p">[</span><span class="ss">:show</span><span class="p">,</span> <span class="ss">:display</span><span class="p">],</span>
+    <span class="ss">edit: </span><span class="p">[</span><span class="ss">:edit</span><span class="p">,</span> <span class="ss">:form</span><span class="p">],</span>
+    <span class="ss">update: </span><span class="p">[</span><span class="ss">:edit</span><span class="p">,</span> <span class="ss">:form</span><span class="p">],</span>
+    <span class="ss">new: </span><span class="p">[</span><span class="ss">:new</span><span class="p">,</span> <span class="ss">:form</span><span class="p">],</span>
+    <span class="ss">create: </span><span class="p">[</span><span class="ss">:new</span><span class="p">,</span> <span class="ss">:form</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<p>By defaulting to one mapping for generating <code class="language-plaintext highlighter-rouge">fields</code> and <code class="language-plaintext highlighter-rouge">cards</code> methods, we’ve done away with the duplication in the initial code. We’ll now proceed to make changes inside the <code class="language-plaintext highlighter-rouge">fetch_cards</code> and <code class="language-plaintext highlighter-rouge">fetch_fields</code> methods since this is where the code which generates the actual methods AKA the metaprogramming code is defined.</p>
+
+<p>First the <code class="language-plaintext highlighter-rouge">fetch_fields</code> method. 
+We’ll use the syntax <code class="language-plaintext highlighter-rouge">:"#{method_for_view}_fields"</code> to dynamically append the suffix when generating <code class="language-plaintext highlighter-rouge">fields</code> methods for a given view.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># code ommitted for brevity</span>
+<span class="n">possible_methods_for_view</span> <span class="o">=</span> <span class="no">VIEW_METHODS_MAPPING</span><span class="p">[</span><span class="n">view</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
+
+<span class="n">possible_methods_for_view</span><span class="o">&amp;</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">method_for_view</span><span class="o">|</span>
+  <span class="k">return</span> <span class="nb">send</span><span class="p">(</span><span class="ss">:"</span><span class="si">#{</span><span class="n">method_for_view</span><span class="si">}</span><span class="ss">_fields"</span><span class="p">)</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="ss">:"</span><span class="si">#{</span><span class="n">method_for_view</span><span class="si">}</span><span class="ss">_fields"</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">fields</span>
+</code></pre></div></div>
+<p>To explain this code a bit I’ll pose a question? How does the above code generate the 2 methods namely <code class="language-plaintext highlighter-rouge">index_fields</code> and <code class="language-plaintext highlighter-rouge">display_fields</code>? Recall that these methods serve the purpose of defining the fields displayed on the index view of a resource.</p>
+
+<p>We start with the line of code below:
+<code class="language-plaintext highlighter-rouge">possible_methods_for_view = VIEW_METHODS_MAPPING[view.to_sym]</code>:</p>
+<ul>
+  <li>creates a variable named <code class="language-plaintext highlighter-rouge">possible_methods_for_view</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">view</code> corresponds to the current view, in which case this will be the index view. The <code class="language-plaintext highlighter-rouge">.to_sym</code> method turns the receiver(index) into a symbol eventually returning <code class="language-plaintext highlighter-rouge">:index</code>.</li>
+</ul>
+
+<p>By this logic, we now have this <code class="language-plaintext highlighter-rouge">possible_methods_for_view = VIEW_METHOD_MAPPING[:index]</code>. Since <code class="language-plaintext highlighter-rouge">VIEW_METHODS_MAPPING</code> is a hash with one of the keys inside this hash being the <code class="language-plaintext highlighter-rouge">:index</code> symbol, as seen below:
+<code class="language-plaintext highlighter-rouge">index: [:index, :display]</code>, 
+we are able to access the 2 symbol values corresponding to the <code class="language-plaintext highlighter-rouge">:index</code> key namely <code class="language-plaintext highlighter-rouge">:index</code> and <code class="language-plaintext highlighter-rouge">:display</code>. We’ll use these as the first parts of the index view method names.</p>
+
+<p>The metaprogramming code below:</p>
+
+<p><code class="language-plaintext highlighter-rouge">return send(:"#{method_for_view}_fields") if respond_to?(:"#{method_for_view}_fields")</code></p>
+
+<p>will append the <code class="language-plaintext highlighter-rouge">_fields</code> suffix to the 2 values namely <code class="language-plaintext highlighter-rouge">index</code> and <code class="language-plaintext highlighter-rouge">display</code> such that we end up with 2 methods for the index view namely: <code class="language-plaintext highlighter-rouge">index_fields</code> and <code class="language-plaintext highlighter-rouge">display_fields</code>.</p>
+
+<p>For these 2 generated methods, we loop through them to see if the view specific <code class="language-plaintext highlighter-rouge">index_fields</code> method was defined in the resource file, and if this evaluates to true, the method returns. If it evaluates to false, we proceed to check whether the less-specific <code class="language-plaintext highlighter-rouge">display_fields</code> method was defined, and if yes the method returns. The key takeaway here, is that we check the generated methods based on what was defined inside the resource file, with the view-specific methods such as <code class="language-plaintext highlighter-rouge">index_fields</code> taking precedence over context-specific methods such as <code class="language-plaintext highlighter-rouge">display_fields</code>. At any one point during the check, if we find a match, we return and the method exits, otherwise we continue the check with the next available method for that view.</p>
+
+<p><code class="language-plaintext highlighter-rouge">display_fields</code> is referred to as a context-specific method because it not only applies to the index view but also the show view which are both display views.</p>
+
+<p>By using this syntax <code class="language-plaintext highlighter-rouge">:"#{method_for_view}_fields"</code> instead of <code class="language-plaintext highlighter-rouge">method_for_view</code>, we have the code automatically append <code class="language-plaintext highlighter-rouge">_fields</code> when generating a <code class="language-plaintext highlighter-rouge">fields</code> method thereby removing the initial duplication in the mapping.</p>
+
+<blockquote>
+  <p>Both the initial and the new metaprogramming implementations utilize 2 methods named <code class="language-plaintext highlighter-rouge">send</code> and <code class="language-plaintext highlighter-rouge">respond_to?</code>.
+These are covered in more detail in the posts linked at the end of this post.</p>
+</blockquote>
+
+<p>For the <code class="language-plaintext highlighter-rouge">fetch_cards</code> method, we’ll use a variation of the same syntax just like in the <code class="language-plaintext highlighter-rouge">fetch_fields</code> method, to have the <code class="language-plaintext highlighter-rouge">_cards</code> suffix dynamically appended when generating <code class="language-plaintext highlighter-rouge">cards</code> methods for a specific view.</p>
+
+<p><code class="language-plaintext highlighter-rouge">:"#{method_for_view}_cards"</code></p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">fetch_cards</span>
+  <span class="n">possible_methods_for_view</span> <span class="o">=</span> <span class="no">VIEW_METHODS_MAPPING</span><span class="p">[</span><span class="n">view</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
+
+  <span class="n">possible_methods_for_view</span><span class="o">&amp;</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">method_for_view</span><span class="o">|</span>
+    <span class="k">return</span> <span class="nb">send</span><span class="p">(</span><span class="ss">:"</span><span class="si">#{</span><span class="n">method_for_view</span><span class="si">}</span><span class="ss">_cards"</span><span class="p">)</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="ss">:"</span><span class="si">#{</span><span class="n">method_for_view</span><span class="si">}</span><span class="ss">_cards"</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">cards</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<p>Because we specify the suffix to be <code class="language-plaintext highlighter-rouge">_cards</code> instead of <code class="language-plaintext highlighter-rouge">_fields</code> in this line of code, <code class="language-plaintext highlighter-rouge">:"#{method_for_view}_cards"</code>, we’ll end up with 2 cards methods generated for the index view namely <code class="language-plaintext highlighter-rouge">index_cards</code> and <code class="language-plaintext highlighter-rouge">display_cards</code>.</p>
+
+<p>The new version of the initial code will look like below:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">unless</span> <span class="k">defined?</span> <span class="no">VIEW_METHODS_MAPPING</span>
+  <span class="no">VIEW_METHODS_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">index: </span><span class="p">[</span><span class="ss">:index</span><span class="p">,</span> <span class="ss">:display</span><span class="p">],</span>
+    <span class="ss">show: </span><span class="p">[</span><span class="ss">:show</span><span class="p">,</span> <span class="ss">:display</span><span class="p">],</span>
+    <span class="ss">edit: </span><span class="p">[</span><span class="ss">:edit</span><span class="p">,</span> <span class="ss">:form</span><span class="p">],</span>
+    <span class="ss">update: </span><span class="p">[</span><span class="ss">:edit</span><span class="p">,</span> <span class="ss">:form</span><span class="p">],</span>
+    <span class="ss">new: </span><span class="p">[</span><span class="ss">:new</span><span class="p">,</span> <span class="ss">:form</span><span class="p">],</span>
+    <span class="ss">create: </span><span class="p">[</span><span class="ss">:new</span><span class="p">,</span> <span class="ss">:form</span><span class="p">]</span>
+  <span class="p">}</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">fetch_fields</span>
+  <span class="n">possible_methods_for_view</span> <span class="o">=</span> <span class="no">VIEW_METHODS_MAPPING</span><span class="p">[</span><span class="n">view</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
+  
+  <span class="n">possible_methods_for_view</span><span class="o">&amp;</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">method_for_view</span><span class="o">|</span>
+    <span class="k">return</span> <span class="nb">send</span><span class="p">(</span><span class="ss">:"</span><span class="si">#{</span><span class="n">method_for_view</span><span class="si">}</span><span class="ss">_fields"</span><span class="p">)</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="ss">:"</span><span class="si">#{</span><span class="n">method_for_view</span><span class="si">}</span><span class="ss">_fields"</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">fields</span>
+<span class="k">end</span>
+
+<span class="k">def</span> <span class="nf">fetch_cards</span>
+  <span class="n">possible_methods_for_view</span> <span class="o">=</span> <span class="no">VIEW_METHODS_MAPPING</span><span class="p">[</span><span class="n">view</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
+
+  <span class="n">possible_methods_for_view</span><span class="o">&amp;</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">method_for_view</span><span class="o">|</span>
+    <span class="k">return</span> <span class="nb">send</span><span class="p">(</span><span class="ss">:"</span><span class="si">#{</span><span class="n">method_for_view</span><span class="si">}</span><span class="ss">_cards"</span><span class="p">)</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="ss">:"</span><span class="si">#{</span><span class="n">method_for_view</span><span class="si">}</span><span class="ss">_cards"</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">cards</span>
+<span class="k">end</span>
+</code></pre></div></div>]]></content><author><name></name></author><category term="refactoring" /><summary type="html"><![CDATA[```ruby unless defined? VIEW_METHODS_MAPPING VIEW_METHODS_MAPPING = { index: [:index_fields, :display_fields], show: [:show_fields, :display_fields], edit: [:edit_fields, :form_fields], update: [:edit_fields, :form_fields], new: [:new_fields, :form_fields], create: [:new_fields, :form_fields] } end unless defined? VIEW_CARDS_MAPPING VIEW_CARDS_MAPPING = { index: [:index_cards, :display_cards], show: [:show_cards, :display_cards] edit: [:edit_cards, :form_cards], update: [:edit_cards, :form_cards], new: [:new_cards, :form_cards], create: [:new_cards, :form_cards] } end]]></summary></entry><entry><title type="html">Learn about Ruby’s send method with a practical example</title><link href="http://localhost:4000/refactoring/ruby/2025/08/05/all-about-the-send-method-in-ruby.html" rel="alternate" type="text/html" title="Learn about Ruby’s send method with a practical example" /><published>2025-08-05T23:53:47+03:00</published><updated>2025-08-05T23:53:47+03:00</updated><id>http://localhost:4000/refactoring/ruby/2025/08/05/all-about-the-send-method-in-ruby</id><content type="html" xml:base="http://localhost:4000/refactoring/ruby/2025/08/05/all-about-the-send-method-in-ruby.html"><![CDATA[<p>The <code class="language-plaintext highlighter-rouge">send</code> method is one of the most commonly used Ruby methods when implementing metaprogramming solutions to problems in Ruby. For this reason, it is imperative that you understand how it works and the context in which its a method of choice. There is no better way to do this than with a practical example.</p>
+
+<p>Keep the code below in mind as everything that follows in this post will refer to it.</p>
+
+<p>You have a <code class="language-plaintext highlighter-rouge">document.rb</code> file. This file will contain the metaprogramming code which serves the sole purpose of dynamically building a set of methods ending in the <code class="language-plaintext highlighter-rouge">_attributes</code> suffix with one example being the <code class="language-plaintext highlighter-rouge">index_attributes</code> method in the Post class.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Document</span>
+  <span class="nb">attr_accessor</span> <span class="ss">:view</span> 
+
+  <span class="no">VIEW_ATTRIBUTES_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">index: </span><span class="p">[</span><span class="ss">:index_attributes</span><span class="p">,</span> <span class="ss">:display_attributes</span><span class="p">],</span>
+    <span class="ss">show: </span><span class="p">[</span><span class="ss">:show_attributes</span><span class="p">,</span> <span class="ss">:display_attributes</span><span class="p">],</span>
+    <span class="ss">edit: </span><span class="p">[</span><span class="ss">:edit_attributes</span><span class="p">,</span> <span class="ss">:form_attributes</span><span class="p">],</span>
+    <span class="ss">new: </span><span class="p">[</span><span class="ss">:new_attributes</span><span class="p">,</span> <span class="ss">:form_attributes</span><span class="p">],</span>
+    <span class="ss">create: </span><span class="p">[</span><span class="ss">:new_attributes</span><span class="p">,</span> <span class="ss">:form_attributes</span><span class="p">],</span>
+    <span class="ss">update: </span><span class="p">[</span><span class="ss">:edit_attributes</span><span class="p">,</span> <span class="ss">:form_attributes</span><span class="p">]</span>
+   <span class="p">}</span>
+
+  <span class="k">def</span> <span class="nf">fetch_attributes</span>
+    <span class="n">possible_attributes_for_view</span> <span class="o">=</span> <span class="no">VIEW_ATTRIBUTES_MAPPING</span><span class="p">[</span><span class="n">view</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
+    
+    <span class="n">possible_attributes_for_view</span><span class="o">&amp;</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">method_for_view</span><span class="o">|</span>
+
+      <span class="k">return</span> <span class="nb">send</span><span class="p">(</span><span class="n">method_for_view</span><span class="p">)</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="n">method_for_view</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Then a <code class="language-plaintext highlighter-rouge">post.rb</code> file which inherits from what is defined in <code class="language-plaintext highlighter-rouge">document.rb</code>. In this file, we determine a method named <code class="language-plaintext highlighter-rouge">index_attributes</code> which returns an array of items when called.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">Document</span>
+  <span class="nb">attr_accessor</span> <span class="ss">:view</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
+    <span class="vi">@view</span> <span class="o">=</span> <span class="n">view</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">index_attributes</span>
+    <span class="p">[</span><span class="n">title</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">cover_photo</span><span class="p">,</span> <span class="n">creator</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>At some point in the base.rb file, we have a call to the <code class="language-plaintext highlighter-rouge">send</code> method. By examining this line of code, we’ll be able to answer questions about how the <code class="language-plaintext highlighter-rouge">send</code> method works.</p>
+<ol>
+  <li>What is the receiver object when calling the <code class="language-plaintext highlighter-rouge">send</code> method in this line of code?</li>
+  <li>How does the class of this receiver object change in various contexts?</li>
+  <li>What purpose does the <code class="language-plaintext highlighter-rouge">send</code> method perform in this code and why is it referred to as a metaprogramming method?</li>
+  <li>The <code class="language-plaintext highlighter-rouge">send</code> method in this code is used in conjunction with the <code class="language-plaintext highlighter-rouge">respond_to?</code> method. Why is this?</li>
+</ol>
+
+<h2 id="send-has-been-summoned-but-by-who">Send has been summoned but by who?</h2>
+<p>Usually a Ruby method is called like below:</p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">receiver</span><span class="p">.</span><span class="nf">method</span>
+</code></pre></div></div>
+<p>The <code class="language-plaintext highlighter-rouge">receiver</code> being the object which the <code class="language-plaintext highlighter-rouge">method</code> is called on. However, the line of code with the <code class="language-plaintext highlighter-rouge">send</code> method looks peculiar in the sense that, we see a method named <code class="language-plaintext highlighter-rouge">send</code> being called but by who? Who is calling the <code class="language-plaintext highlighter-rouge">send</code> method? The line with the <code class="language-plaintext highlighter-rouge">send</code> method call doesn’t specify an explicit receiver for the method call.
+<code class="language-plaintext highlighter-rouge">return send(method_for_view) if respond_to?(method_for_view)</code></p>
+
+<p>If you’re an experienced Ruby developer, its probably quick for you to know that the above line of code is synonymous with the line of code below with the <code class="language-plaintext highlighter-rouge">self</code> being usually ommitted for stylistic reasons.
+<code class="language-plaintext highlighter-rouge">return self.send(method_for_view) if self.respond_to?(method_for_view)</code>.</p>
+
+<p>Now that we’ve established that <code class="language-plaintext highlighter-rouge">self</code> is the receiver for the <code class="language-plaintext highlighter-rouge">send</code> method call, all is starting to make sense. However, we are still left with one question to answer. What does <code class="language-plaintext highlighter-rouge">self</code> refer to in this context?</p>
+
+<p>Let’s refresh our minds by going back to what this line of code does. The line is supposed to check if a bunch of methods ending in the <code class="language-plaintext highlighter-rouge">_attributes</code> suffix are defined some where, possibly a Ruby class of some sort. If these methods are defined in that specific place i.e <code class="language-plaintext highlighter-rouge">respond_to?</code> returns true, the defined methods ending in the <code class="language-plaintext highlighter-rouge">_attributes</code> suffix will be called on an object created by that specific class where the method was defined in the first place.</p>
+
+<p>In the <code class="language-plaintext highlighter-rouge">post.rb</code> file, we have an <code class="language-plaintext highlighter-rouge">index_attributes</code> method. If we replace <code class="language-plaintext highlighter-rouge">method_for_view</code> with <code class="language-plaintext highlighter-rouge">index_attributes</code>, the line of code with the send method call will be equivalent to <code class="language-plaintext highlighter-rouge">return self.send(:index_attributes) if self.respond_to?(:index_attributes)</code>.</p>
+
+<p>In English, the line of code above loosely translates to “Call the method named <code class="language-plaintext highlighter-rouge">index_attributes</code> on an object created by a class where the <code class="language-plaintext highlighter-rouge">index_attributes</code> method is defined but, first perform a check that the <code class="language-plaintext highlighter-rouge">index_attributes</code> method is actually defined in this class. Only if its defined, then call the method.”</p>
+
+<p>This highlights two things:</p>
+<ol>
+  <li>
+    <p>The call to <code class="language-plaintext highlighter-rouge">respond_to?</code> happens first. This checks if the <code class="language-plaintext highlighter-rouge">index_attributes</code> is defined in the class. Therefore, its safe to say that the value of <code class="language-plaintext highlighter-rouge">self</code> in <code class="language-plaintext highlighter-rouge">self.respond_to?(:index_attributes)</code> is an instance object whose mother class is the class where the <code class="language-plaintext highlighter-rouge">index_attributes</code> method is defined.</p>
+  </li>
+  <li>
+    <p>The call to <code class="language-plaintext highlighter-rouge">send</code> happens last. This actually calls the “already defined” method on the specific instance object. Therefore, even in this case <code class="language-plaintext highlighter-rouge">self</code> is equivalent to an instance object created from the class where the <code class="language-plaintext highlighter-rouge">index_attributes</code> method is defined.</p>
+  </li>
+</ol>
+
+<p>In both cases, since the <code class="language-plaintext highlighter-rouge">index_attributes</code> method is defined in the Post class, the object which is <code class="language-plaintext highlighter-rouge">self</code> will translate to an instance object of the Post class. By this logic, we expect the method to return an array of the following items; <code class="language-plaintext highlighter-rouge">[title, body, cover_photo, creator]</code>. Let’s try this out in an irb session.</p>
+
+<p>Temporarily modify the <code class="language-plaintext highlighter-rouge">fetch_attributes</code> method to point out the current value of <code class="language-plaintext highlighter-rouge">self</code>.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">fetch_attributes</span>
+  <span class="n">possible_attributes_for_view</span> <span class="o">=</span> <span class="no">VIEW_ATTRIBUTES_MAPPING</span><span class="p">[</span><span class="n">view</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
+   
+  <span class="n">possible_attributes_for_view</span><span class="o">&amp;</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">method_for_view</span><span class="o">|</span>
+    <span class="nb">puts</span> <span class="s2">"Current value of self is: </span><span class="si">#{</span><span class="nb">self</span><span class="si">}</span><span class="s2">"</span>
+    <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="n">method_for_view</span><span class="p">)</span> <span class="k">if</span> <span class="nb">self</span><span class="p">.</span><span class="nf">respond_to?</span><span class="p">(</span><span class="n">method_for_view</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre></div></div>
+
+<p>Create a new post instance and proceed to call the <code class="language-plaintext highlighter-rouge">fetch_attributes</code> method on it.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mi">146</span> <span class="o">&gt;</span> <span class="n">new_post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:index</span><span class="p">)</span>
+ <span class="o">=&gt;</span> <span class="c1">#&lt;Post:0x0000776499e39bb0 @view=:index&gt; </span>
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mi">147</span> <span class="o">&gt;</span> <span class="n">new_post</span><span class="p">.</span><span class="nf">fetch_attributes</span>
+<span class="no">The</span> <span class="n">current</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">self</span> <span class="ss">is: </span><span class="c1">#&lt;Post:0x0000776499e39bb0&gt;</span>
+ <span class="o">=&gt;</span> <span class="p">[</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:cover_photo</span><span class="p">,</span> <span class="ss">:creator</span><span class="p">]</span> 
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mi">148</span> <span class="o">&gt;</span> 
+</code></pre></div></div>
+<p>As you can see, the current value of <code class="language-plaintext highlighter-rouge">self</code> is the newly created instance object named post.</p>
+
+<p>Also, when we call <code class="language-plaintext highlighter-rouge">post.fetch_attributes</code>, we get the array of items returned to us. This is because since we has set the current view to be index, 2 methods related to the index view will be created namely the <code class="language-plaintext highlighter-rouge">index_attributes</code> and <code class="language-plaintext highlighter-rouge">display_attributes</code>. The line <code class="language-plaintext highlighter-rouge">return send(method_for_view) if respond_to?(method_for_view)</code> will check for the <code class="language-plaintext highlighter-rouge">index_attributes</code> method first and if it was defined inside the Post class. Since this is the case, the method will return the output of calling the <code class="language-plaintext highlighter-rouge">index_attributes</code> method ([:title, :body, :cover_photo, :creator] ) and thereafter return.</p>
+
+<p>Now that we’ve established who summoned the <code class="language-plaintext highlighter-rouge">send</code> method, we’ll proceed to investigate the changing nature of self.</p>
+
+<h2 id="any-object-can-be-self-depending-on-context">Any object can be self depending on context</h2>
+<p>Inside the Post class, if you look closely, you’ll notice a subtle detail. While <code class="language-plaintext highlighter-rouge">send(method_for_view)</code> can be written as <code class="language-plaintext highlighter-rouge">self.send(method_for_view)</code>, the method in the Post class is not written as below.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">Document</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">index_attributes</span>
+    <span class="p">[</span><span class="n">title</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">cover_photo</span><span class="p">,</span> <span class="n">creator</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<p>Why is this the case? To figure this out, lets create a new instance of the Post class and proceed to call the <code class="language-plaintext highlighter-rouge">index_attributes</code> method on it. This results into an error. Why is this?</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mi">222</span> <span class="o">&gt;</span> <span class="n">post</span> <span class="o">=</span> <span class="no">Post</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">:index</span><span class="p">)</span>
+ <span class="o">=&gt;</span> <span class="c1">#&lt;Post:0x0000776499f7bb68 @view=:index&gt; </span>
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mi">223</span> <span class="o">&gt;</span> <span class="n">post</span><span class="p">.</span><span class="nf">index_attributes</span>
+<span class="p">(</span><span class="n">irb</span><span class="p">):</span><span class="mi">223</span><span class="ss">:in</span> <span class="sb">`&lt;main&gt;': undefined method `</span><span class="n">index_attributes</span><span class="s1">' for #&lt;Post:0x0000776499f7bb68 @view=:index&gt; (NoMethodError)
+
+post.index_attributes
+    ^^^^^^^^^^^^^^^^^
+	from /usr/share/rvm/gems/ruby-3.2.6/gems/irb-1.15.2/exe/irb:9:in `&lt;top (required)&gt;'</span>
+	<span class="n">from</span> <span class="sr">/usr/s</span><span class="n">hare</span><span class="o">/</span><span class="n">rvm</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">ruby</span><span class="o">-</span><span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">irb</span><span class="p">:</span><span class="mi">25</span><span class="ss">:in</span> <span class="sb">`load'
+	from /usr/share/rvm/gems/ruby-3.2.6/bin/irb:25:in `</span><span class="o">&lt;</span><span class="n">main</span><span class="o">&gt;</span><span class="s1">'
+	from /usr/share/rvm/gems/ruby-3.2.6/bin/ruby_executable_hooks:22:in `eval'</span>
+	<span class="n">from</span> <span class="sr">/usr/s</span><span class="n">hare</span><span class="o">/</span><span class="n">rvm</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">ruby</span><span class="o">-</span><span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">ruby_executable_hooks</span><span class="p">:</span><span class="mi">22</span><span class="ss">:in</span> <span class="sb">`&lt;main&gt;'
+3.2.6 :224 &gt; 
+</span></code></pre></div></div>
+<p>This is because defining the <code class="language-plaintext highlighter-rouge">index_attributes</code> method as <code class="language-plaintext highlighter-rouge">self.index_attributes</code> changes it from being an instance method to a class method. What this means is that we can nolonger call it on instances of the Post class but rather only on the Class itself. As you can see below, calling the method on the class itself doesn’t throw an error.</p>
+
+<p>Also, its important to keep in mind that when the metaprogramming code is generating methods ending in the <code class="language-plaintext highlighter-rouge">_attributes</code>, the methods for example the <code class="language-plaintext highlighter-rouge">index_attributes</code> method will be generated as <code class="language-plaintext highlighter-rouge">index_attributes</code> instead of <code class="language-plaintext highlighter-rouge">self.index_attributes</code>.</p>
+
+<p>With this, we can conclude, <code class="language-plaintext highlighter-rouge">self</code> can stand for anything. From the class itself to an instance of a class.</p>
+
+<h2 id="is-send-really-that-important-where-would-we-be-without-send">Is send really that important? Where would we be without send?</h2>
+<p>Without the <code class="language-plaintext highlighter-rouge">send</code> method, the <code class="language-plaintext highlighter-rouge">fetch_attributes</code> method would have to be implemented like below.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">fetch_attributes</span>
+    <span class="k">return</span> <span class="n">index_attributes</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="n">index_attributes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">display_attributes</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="n">display_attributes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">show_attributes</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="n">show_attributes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">edit_attributes</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="n">edit_attributes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">form_attributes</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="n">form_attributes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_attributes</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="n">new_attributes</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+<p>As you can see, we’d have to manually write return statements to check if each and everyone of the possible methods is defined.This gets tiring pretty fast, especially if you’re dealing with a lot of methods. With send in our toolbox, we can dynamically generate and call the currently defined method(s) on whatever self is. Put simply, <code class="language-plaintext highlighter-rouge">send</code> allows us to write maintainable code while being lazy along the way.</p>
+
+<h2 id="my-name-is-send-and-i-wanna-tell-you-about-my-colleague-respond_to">My name is send and I wanna tell you about my colleague respond_to?</h2>
+<p>The <code class="language-plaintext highlighter-rouge">respond_to?</code> method is what checks if a method is defined in the class. Without it, the output below is what we’d run into.</p>
+
+<h2 id="a-subtle-requirement-for-using-send-method">A subtle requirement for using send method</h2>
+<p>Let’s modify the code a bit to identify the value of <code class="language-plaintext highlighter-rouge">method_for_view</code>.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">def</span> <span class="nf">fetch_attributes</span>
+    <span class="n">possible_attributes_for_view</span> <span class="o">=</span> <span class="no">VIEW_ATTRIBUTES_MAPPING</span><span class="p">[</span><span class="n">view</span><span class="p">.</span><span class="nf">to_sym</span><span class="p">]</span>
+    
+    <span class="n">possible_attributes_for_view</span><span class="o">&amp;</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">method_for_view</span><span class="o">|</span>
+      <span class="nb">puts</span> <span class="s2">"Value of method_for_view is: </span><span class="si">#{</span><span class="n">method_for_view</span><span class="si">}</span><span class="s2">"</span>
+      <span class="nb">puts</span> <span class="s2">" Class of method_for_view: </span><span class="si">#{</span> <span class="n">method_for_view</span><span class="p">.</span><span class="nf">class</span><span class="si">}</span><span class="s2">"</span>
+      <span class="k">return</span> <span class="nb">send</span><span class="p">(</span><span class="n">method_for_view</span><span class="p">)</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="n">method_for_view</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+</code></pre></div></div>
+
+<p>As you can see, <code class="language-plaintext highlighter-rouge">method_for_view</code> is a Symbol so, inside the parentheses, when calling the <code class="language-plaintext highlighter-rouge">send</code> method, we pass in a symbol and not a method name.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mi">314</span> <span class="o">&gt;</span> <span class="n">post</span><span class="p">.</span><span class="nf">fetch_attributes</span>
+<span class="no">Value</span> <span class="n">of</span> <span class="n">method_for_view</span> <span class="ss">is: </span><span class="n">index_attributes</span>
+<span class="no">Class</span> <span class="n">of</span> <span class="n">method_for_view</span> <span class="ss">is: </span><span class="no">Symbol</span>
+<span class="no">Value</span> <span class="n">of</span> <span class="n">method_for_view</span> <span class="ss">is: </span><span class="n">display_attributes</span>
+<span class="no">Class</span> <span class="n">of</span> <span class="n">method_for_view</span> <span class="ss">is: </span><span class="no">Symbol</span>
+ <span class="o">=&gt;</span> <span class="p">[</span><span class="ss">:index_attributes</span><span class="p">,</span> <span class="ss">:display_attributes</span><span class="p">]</span> 
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mi">315</span> <span class="o">&gt;</span> 
+</code></pre></div></div>
+
+<p>This reveals a subtle detail about the <code class="language-plaintext highlighter-rouge">send</code> method in Ruby which is that allows 2 options for passing an already defined method to send inside parentheses with one of them being as a symbol(like the current code) and the other as a string.</p>
+
+<p>And that’s pretty much all I can say about the <code class="language-plaintext highlighter-rouge">send</code> method in ruby. Before I depart however, I’ll leave you with a question. What happens incase we pass a non-existent method to the <code class="language-plaintext highlighter-rouge">send</code> method? Try it out in the browser and see the result for yourself.</p>]]></content><author><name></name></author><category term="refactoring" /><category term="ruby" /><summary type="html"><![CDATA[The send method is one of the most commonly used Ruby methods when implementing metaprogramming solutions to problems in Ruby. For this reason, it is imperative that you understand how it works and the context in which its a method of choice. There is no better way to do this than with a practical example.]]></summary></entry><entry><title type="html">A junior developer’s guide to contributing to ruby events</title><link href="http://localhost:4000/ruby/2025/07/18/a-junior-developer-guide-to-contributing-to-ruby-events.html" rel="alternate" type="text/html" title="A junior developer’s guide to contributing to ruby events" /><published>2025-07-18T01:36:47+03:00</published><updated>2025-07-18T01:36:47+03:00</updated><id>http://localhost:4000/ruby/2025/07/18/a-junior-developer-guide-to-contributing-to-ruby-events</id><content type="html" xml:base="http://localhost:4000/ruby/2025/07/18/a-junior-developer-guide-to-contributing-to-ruby-events.html"><![CDATA[<p>This guide makes the following one major assumption which is that you have a Github account. If by any chance you’re reading this and don’t have one, create one first and then come back to the guide.</p>
+
+<ul>
+  <li>Fork repo</li>
+  <li>Clone repo on your local machine</li>
+  <li>Run <code class="language-plaintext highlighter-rouge">bundle install</code></li>
+  <li>Create the development database with <code class="language-plaintext highlighter-rouge">rails db:create</code></li>
+</ul>
+
+<p>At the time of writing this, the required version of ruby before you can run <code class="language-plaintext highlighter-rouge">rails db:create</code> and <code class="language-plaintext highlighter-rouge">bundle install</code> is ruby 3.4.5.
+If you have an older version, you may run into the error <code class="language-plaintext highlighter-rouge">Your Ruby version is 3.2.3, but your Gemfile specified 3.4.5</code>  which is simply solved by installing the required version of Ruby.</p>
+
+<p><img src="/assets/images/contributing-to-ruby-events/ruby-version-3.4.5.png" alt="Install Ruby version 3.4.5" /></p>
+
+<p>If <code class="language-plaintext highlighter-rouge">rails db:create</code> ran successfully, you’ll see the output below:</p>
+
+<p><img src="/assets/images/contributing-to-ruby-events/successful-database-creation.png" alt="Successful creation of databases" /></p>
+
+<ul>
+  <li>
+    <p>Migrate by running <code class="language-plaintext highlighter-rouge">rails db:migrate</code>
+<img src="/assets/images/contributing-to-ruby-events/successful-database-migration.png" alt="Successful migration" /></p>
+  </li>
+  <li>
+    <p>Seed database with <code class="language-plaintext highlighter-rouge">rails db:seed</code>
+<img src="/assets/images/contributing-to-ruby-events/successful-database-seeding.png" alt="Successful seeding" /></p>
+  </li>
+  <li>
+    <p>Start application by running <code class="language-plaintext highlighter-rouge">bin/dev</code></p>
+  </li>
+</ul>
+
+<p>If you don’t have Yarn installed on your machine, running <code class="language-plaintext highlighter-rouge">bin/dev</code> will result into the error below. 
+<img src="/assets/images/contributing-to-ruby-events/yarn-error.png" alt="Yarn error" /></p>
+
+<p>Solving this error is simple. Just run <code class="language-plaintext highlighter-rouge">yarn install</code>. You’ll see the output below following successful installation of Yarn.
+<img src="/assets/images/contributing-to-ruby-events/successful-yarn-install.png" alt="Install Yarn" /></p>
+
+<p>After this setup process, you can now play around with the application in your browser. 
+<img src="/assets/images/contributing-to-ruby-events/application-as-seen-in-browser.png" alt="Browsing app in browser" /></p>
+
+<p>On the Ruby Events issues page, there is a ton of issues that you can help out with from features and enhancements to contributing conference data for new and past events. 
+<img src="/assets/images/contributing-to-ruby-events/list-of-available-issues.png" alt="List of available Open issues" /></p>
+
+<p>Choose the one you’d like to work on and ask to be assigned. After being assigned, proceed to work on the issue.</p>
+
+<p>Before you start working on your issue, make sure that your local repository is up to date with the Ruby Events remote repository. To do this, click on the “Sync fork” button and thereafter the “Update branch” button. This will sync the latest changes from the Ruby events repository into your fork on Github.</p>
+
+<p><img src="/assets/images/contributing-to-ruby-events/bringing-your-fork-up-to-date.png" alt="Bringing your fork up to date" /></p>
+
+<p>Locally, while on the main branch, run the command <code class="language-plaintext highlighter-rouge">git pull origin main</code> bring your local repository up to date with the Ruby Events remote repository.</p>
+
+<p>Create a new branch name describing the issue you’re working on, switch to that branch.</p>
+
+<p>If for example I chose an issue that involves contributing conference data, I would name my branch after the name of the event whose data I am contributing. I would then switch to that branch with the command below.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">git</span> <span class="n">checkout</span> <span class="o">-</span><span class="n">b</span> <span class="n">add</span><span class="o">-</span><span class="n">imaginary</span><span class="o">-</span><span class="n">ruby</span><span class="o">-</span><span class="n">conference</span><span class="o">-</span><span class="n">data</span>
+</code></pre></div></div>
+<p>With the above git command, you’ve created a new branch named <code class="language-plaintext highlighter-rouge">add-imaginary-ruby-conference-data</code> and switched to it.</p>
+
+<p><img src="/assets/images/contributing-to-ruby-events/creating-a-new-branch.png" alt="Creating a new branch" /></p>
+
+<p>Proceed to implement the feature/ add conference data and test it out in the browser to confirm that it’s working as expected.</p>
+
+<p>Before pushing to Github, you may run the <code class="language-plaintext highlighter-rouge">bin/lint</code> script to autocorrect any Lint issues on your branch for example those to do with Indentation.</p>
+
+<p>Push your code to github with <code class="language-plaintext highlighter-rouge">git push origin add-imaginary-ruby-conference-data</code>. This will create a remote counterpart for your branch which you’ll use to open a pull request.</p>
+
+<p>Open a PR, in the description, describe what your PR is about and what it fixes/adds linking the issue number if it applies. While not mandatory, its a good idea to attach a screenshot/video showing your fix. This makes it easier for the reviewers to get the gist of what your PR is meant to add.</p>
+
+<p>Upon finally opening your PR, the Ruby Events CI will be triggered by default. This is just a bunch of checks which let you know incase some of those lint issues we talked about earlier are still present.</p>
+
+<p>If none of them are present, which is usually the case if you ran <code class="language-plaintext highlighter-rouge">bin/lint</code>, the CI will let you know that all tests ran on your PR pass.</p>
+
+<p>Passing CI tests will look like this:
+<img src="/assets/images/contributing-to-ruby-events/passing-ci-tests.png" alt="Passing CI tests" /></p>
+
+<p>If some of them are failing, you’ll proceed to check which specific one is failing, make the change to solve it locally, commit the new changes, then push your latest changes to Github.</p>
+
+<p>Failing CI tests will look like below:
+<img src="/assets/images/contributing-to-ruby-events/failing-ci-tests.png" alt="Failing CI tests" /></p>
+
+<p>The CI will again run automatically and hopefully now, your CI tests will all pass.</p>
+
+<p>If everything passes, now onto the good part which is the review process. The maintainers will let you know incase of anything that needs to be changed and potentially how to go about it. Still, just like for the failing lint, locally apply the requested changes by the maintainer, commit and push to Github.</p>
+
+<p>If the CI for your PR passes and the maintainer has agreed that there are no further changes necessary for your PR, your PR will be merged into main. The merging may not happen as quickly as you might want to but eventually it will be merged. 
+A merged PR will look like below:</p>
+
+<p><img src="/assets/images/contributing-to-ruby-events/merged-pr.png" alt="Merged PR" /></p>
+
+<p>There are so many issues to work on from the project for all skill levels from juniors to experienced developers. Do check the repo out and work on any issues that may interest you.
+<img src="/assets/images/contributing-to-ruby-events/list-of-available-issues.png" alt="List of available Open issues" /></p>
+
+<p>For those that may be going through this article and you stumble upon something upon the way, don’t hesitate to reach out. I’ll be more than delighted to help out!</p>]]></content><author><name></name></author><category term="ruby" /><summary type="html"><![CDATA[This guide makes the following one major assumption which is that you have a Github account. If by any chance you’re reading this and don’t have one, create one first and then come back to the guide.]]></summary></entry><entry><title type="html">How to prevent name collisions when naming your Ruby classes</title><link href="http://localhost:4000/ruby/2025/07/10/how-to-prevent-name-collisions-when-naming-your-ruby-classes.html" rel="alternate" type="text/html" title="How to prevent name collisions when naming your Ruby classes" /><published>2025-07-10T15:49:47+03:00</published><updated>2025-07-10T15:49:47+03:00</updated><id>http://localhost:4000/ruby/2025/07/10/how-to-prevent-name-collisions-when-naming-your-ruby-classes</id><content type="html" xml:base="http://localhost:4000/ruby/2025/07/10/how-to-prevent-name-collisions-when-naming-your-ruby-classes.html"><![CDATA[<h2 id="problem">Problem:</h2>
 <p>For whatever reason, you want to create a class named <code class="language-plaintext highlighter-rouge">Integer</code> and instantiate objects with that class.</p>
 
 <h2 id="approach">Approach:</h2>
@@ -304,7 +1064,7 @@ In the output we also notice that the first_name object is a Proc object meaning
  <span class="o">=&gt;</span> <span class="s2">"John Doe"</span> 
 </code></pre></div></div>
 
-<p>And that marks the end of this post. In case you missed part 1 of the series, you can check it out <a href="https://zhephyn.github.io/ruby/2025/04/16/an-introduction-to-ruby-code-blocks-part-1.html">here</a>.</p>]]></content><author><name></name></author><category term="ruby" /><summary type="html"><![CDATA[Shortcomings of Implicit Code Blocks In Part 1 of this series, examination of the shortcomings of Implicit code blocks in Ruby highlighted the fact that, they can’t be stored and therefore manipulated or passed around to be run later. They have to be executed instantly and inside the method to which they are passed.]]></summary></entry><entry><title type="html">An Introduction To Ruby Code blocks part 1</title><link href="http://localhost:4000/ruby/2025/04/16/an-introduction-to-ruby-code-blocks-part-1.html" rel="alternate" type="text/html" title="An Introduction To Ruby Code blocks part 1" /><published>2025-04-16T10:30:20+03:00</published><updated>2025-04-16T10:30:20+03:00</updated><id>http://localhost:4000/ruby/2025/04/16/an-introduction-to-ruby-code-blocks-part-1</id><content type="html" xml:base="http://localhost:4000/ruby/2025/04/16/an-introduction-to-ruby-code-blocks-part-1.html"><![CDATA[<h2 id="my-first-ruby-problem">My First Ruby Problem</h2>
+<p>And that marks the end of this post. In case you missed part 1 of the series, you can check it out <a href="https://zhephyn.github.io/ruby/2025/04/16/an-introduction-to-ruby-code-blocks-part-1.html">here</a>.</p>]]></content><author><name></name></author><category term="ruby" /><summary type="html"><![CDATA[Shortcomings of Implicit Code Blocks In Part 1 of this series, examination of the shortcomings of Implicit code blocks in Ruby highlighted the fact that, they can’t be stored and therefore manipulated or passed around to be run later. They have to be executed instantly and inside the method to which they are passed.]]></summary></entry><entry><title type="html">An Introduction To Ruby Code blocks Part 1</title><link href="http://localhost:4000/ruby/2025/04/16/an-introduction-to-ruby-code-blocks-part-1.html" rel="alternate" type="text/html" title="An Introduction To Ruby Code blocks Part 1" /><published>2025-04-16T10:30:20+03:00</published><updated>2025-04-16T10:30:20+03:00</updated><id>http://localhost:4000/ruby/2025/04/16/an-introduction-to-ruby-code-blocks-part-1</id><content type="html" xml:base="http://localhost:4000/ruby/2025/04/16/an-introduction-to-ruby-code-blocks-part-1.html"><![CDATA[<h2 id="my-first-ruby-problem">My First Ruby Problem</h2>
 
 <p>When i had started out to learn ruby, one of the earliest problems i was presented with was related to arrays. In this problem, you have an array. Then you have to iterate over that array such that you have each element of the array printed on its own line in the interpreter. For visual purposes, here is the problem plus its solution below implemented in irb.</p>
 
@@ -464,20 +1224,4 @@ See the code attached below:</li>
   <li><a href="https://docs.ruby-lang.org/capi/en/master/d7/d19/group__defmethod.html">rb_block_given_p function</a></li>
 </ol>
 
-<p>This part served as an introduction to implicit code blocks, and looked at the use cases for implicit code blocks which is iterating over elements in an array. In part 2, we’ll look at yet another type of Ruby code blocks named Explicit code blocks and highlight how this specific kind of code block solves the short comings of Implicit code blocks.</p>]]></content><author><name></name></author><category term="ruby" /><summary type="html"><![CDATA[My First Ruby Problem]]></summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/jekyll/update/2024/12/27/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2024-12-27T01:11:03+03:00</published><updated>2024-12-27T01:11:03+03:00</updated><id>http://localhost:4000/jekyll/update/2024/12/27/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2024/12/27/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
-
-<p>Jekyll requires blog post files to be named according to the following format:</p>
-
-<p><code class="language-plaintext highlighter-rouge">YEAR-MONTH-DAY-title.MARKUP</code></p>
-
-<p>Where <code class="language-plaintext highlighter-rouge">YEAR</code> is a four-digit number, <code class="language-plaintext highlighter-rouge">MONTH</code> and <code class="language-plaintext highlighter-rouge">DAY</code> are both two-digit numbers, and <code class="language-plaintext highlighter-rouge">MARKUP</code> is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
-
-<p>Jekyll also offers powerful support for code snippets:</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
-  <span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
-<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
-
-<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>]]></content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html"><![CDATA[You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.]]></summary></entry></feed>
+<p>This part served as an introduction to implicit code blocks, and looked at the use cases for implicit code blocks which is iterating over elements in an array. In part 2, we’ll look at yet another type of Ruby code blocks named Explicit code blocks and highlight how this specific kind of code block solves the short comings of Implicit code blocks.</p>]]></content><author><name></name></author><category term="ruby" /><summary type="html"><![CDATA[My First Ruby Problem]]></summary></entry></feed>

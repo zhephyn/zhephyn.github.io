@@ -2,7 +2,7 @@
 layout: post
 title: Annotating models in your rails app with the rails-lens gem
 date: 2025-08-12 23:10:12 +0300
-category: tutorial ruby
+category: tutorial
 ---
 At some point in a Rails project, you'll have to go through a period of understanding the models and the relationships inside them. This will be more likely before you start contributing to a rails open source project or at your new job. This part of onboarding usually involves a dauting process of going back and forth between the model files and the `schema.rb` file with the sole purpose of mapping relationships between database tables as well as establishing what the models them selves are capable of. Luckily for us, there is a better way to achieve the same, and with less frustration by using the `rails-lens` gem. 
 
