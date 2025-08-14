@@ -174,7 +174,7 @@ For these 2 generated methods, we loop through them to see if the view specific 
 By using this syntax `:"#{method_for_view}_fields"` instead of `method_for_view`, we have the code automatically append `_fields` when generating a `fields` method thereby removing the initial duplication in the mapping. 
 
 > Both the initial and the new metaprogramming implementations utilize 2 methods named `send` and `respond_to?`.
-> These are covered in more detail in the posts linked at the end of this post. 
+> These are covered in more detail in another post linked [here](https://zhephyn.github.io/refactoring/ruby/2025/08/05/all-about-the-send-method-in-ruby.html). 
 
 For the `fetch_cards` method, we'll use a variation of the same syntax just like in the `fetch_fields` method, to have the `_cards` suffix dynamically appended when generating `cards` methods for a specific view. 
 
