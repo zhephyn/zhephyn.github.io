@@ -146,8 +146,7 @@ Also, its important to keep in mind that when the metaprogramming code is genera
 With this, we can conclude, `self` can stand for anything. From the class itself to an instance of a class. 
 
 ## Is send really that important? Where would we be without send?
-Without the `send` method, the `fetch_attributes` method would have to be implemented like below.
-
+Without the `send` method, the `fetch_attributes` would potentially look like below.
 ```ruby
 def fetch_attributes
     return index_attributes if respond_to?(index_attributes)
