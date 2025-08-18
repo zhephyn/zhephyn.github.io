@@ -191,4 +191,35 @@ Class of method_for_view is: Symbol
 
 This reveals a subtle detail about the `send` method in Ruby which is that allows 2 options for passing an already defined method to send inside parentheses with one of them being as a symbol(like the current code) and the other as a string. 
 
+To further confirm this, let's perform a simple experiment in an `irb` session. The aim of this experiment is pretty simple: to capitalize a string using the `upcase` method which ships with Ruby by default.
+
+```ruby
+# create a variable name and assign it to a string
+3.2.6 :001 > name = "james"
+ => "james" 
+# call the Ruby method upcase to capitalize the string
+3.2.6 :002 > name.upcase
+ => "JAMES" 
+# To capitalize the string using the send and upcase methods
+3.2.6 :003 > name.send(:upcase)
+ => "JAMES" 
+3.2.6 :004 > name.send("upcase")
+ => "JAMES" 
+3.2.6 :005 > name.send(upcase)
+(irb):5:in `<main>': undefined local variable or method `upcase' for main:Object (NameError)
+
+name.send(upcase)
+          ^^^^^^
+Did you mean?  case
+	from /usr/share/rvm/gems/ruby-3.2.6/gems/irb-1.15.2/exe/irb:9:in `<top (required)>'
+	from /usr/share/rvm/gems/ruby-3.2.6/bin/irb:25:in `load'
+	from /usr/share/rvm/gems/ruby-3.2.6/bin/irb:25:in `<main>'
+	from /usr/share/rvm/gems/ruby-3.2.6/bin/ruby_executable_hooks:22:in `eval'
+	from /usr/share/rvm/gems/ruby-3.2.6/bin/ruby_executable_hooks:22:in `<main>'
+3.2.6 :006 > 
+```
+We see that to capitalize the string using a combination of the send and upcase method, we have to pass in the `upcase` method to `send` as either a string: `name.send(:upcase)` or as a symbol: `name.send("upcase")`.
+
+When we try to pass in the actual method name: `name.send(upcase)`, we get an error which confirms the subtle detail mentioned earlier about the `send` method.
+
 And that's pretty much all I can say about the `send` method in ruby. Before I depart however, I'll leave you with a question. What happens incase we pass a non-existent method to the `send` method? Try it out in the browser and see the result for yourself. 
