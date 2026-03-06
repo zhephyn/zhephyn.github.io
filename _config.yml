@@ -18,11 +18,10 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Thumbs Up Rails
-email: zhephynwinter@gmail.com
+title: Home
+email: kitakajamesnewton@gmail.com
 description: >- 
-  Personal Blog and website with blog posts about the Ruby on Rails framework 
-  Topics include Hotwire and Stimulus JS how to guides, Kamal deployment.
+  Website for all app related things
 #baseurl: "zhephyn.github.io/" 
 # url: "https://zhephyn.github.io" 
 twitter_username: zhephyn

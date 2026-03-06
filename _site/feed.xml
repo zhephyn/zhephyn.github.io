@@ -1,220 +1,402 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-08-15T23:32:28+03:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Thumbs Up Rails</title><subtitle>Personal Blog and website with blog posts about the Ruby on Rails framework  Topics include Hotwire and Stimulus JS how to guides, Kamal deployment.</subtitle><entry><title type="html">Annotating models in your rails app with the rails-lens gem</title><link href="http://localhost:4000/tutorial/2025/08/12/annotating-your-models-with-the-rails-lens-gem.html" rel="alternate" type="text/html" title="Annotating models in your rails app with the rails-lens gem" /><published>2025-08-12T23:10:12+03:00</published><updated>2025-08-12T23:10:12+03:00</updated><id>http://localhost:4000/tutorial/2025/08/12/annotating-your-models-with-the-rails-lens-gem</id><content type="html" xml:base="http://localhost:4000/tutorial/2025/08/12/annotating-your-models-with-the-rails-lens-gem.html"><![CDATA[<p>At some point in a Rails project, you’ll have to go through a period of understanding the models and the relationships inside them. This will be more likely before you start contributing to a rails open source project or at your new job. This part of onboarding usually involves a dauting process of going back and forth between the model files and the <code class="language-plaintext highlighter-rouge">schema.rb</code> file with the sole purpose of mapping relationships between database tables as well as establishing what the models them selves are capable of. Luckily for us, there is a better way to achieve the same, and with less frustration by using the <code class="language-plaintext highlighter-rouge">rails-lens</code> gem.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-03-07T01:08:04+03:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Home</title><subtitle>Website for all app related things</subtitle><entry><title type="html">Sporty: Sports Card Scanner Privacy Policy</title><link href="http://localhost:4000/apps/2026/03/06/sporty-privacy-policy.html" rel="alternate" type="text/html" title="Sporty: Sports Card Scanner Privacy Policy" /><published>2026-03-06T23:53:47+03:00</published><updated>2026-03-06T23:53:47+03:00</updated><id>http://localhost:4000/apps/2026/03/06/sporty-privacy-policy</id><content type="html" xml:base="http://localhost:4000/apps/2026/03/06/sporty-privacy-policy.html"><![CDATA[<p><strong>Last updated: March 7, 2026</strong></p>
 
-<p>Rails Lens will annotate model files in your app and highlight relationships between database tables in your application, all by running a single command. For purposes of this tutorial, I’ve set up a sample Rails app.</p>
+<p>This Privacy Policy describes how <strong>Sporty: Sports Card Scanner</strong> (“the App”) collects, uses, and protects information when you use the application.</p>
 
-<p>This rails app is the usual rails blog application. It has a couple models namely Post, User, Comment and Category. These models have various associations between each other in the sense that, a post belongs to a user, has many comments and belongs to a category. Attached below are the model files.</p>
+<p>The App is developed and operated by:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code></code></pre></div></div>
+<ul>
+  <li><strong>Developer:</strong> Kitaka James Newton</li>
+  <li><strong>Contact Email:</strong> <a href="mailto:kitakajamesnewton@gmail.com">kitakajamesnewton@gmail.com</a></li>
+  <li><strong>Country of Operation:</strong> Uganda</li>
+</ul>
 
-<p>To set up rails lens in the application, add the line below to your gem file. I’ve chosen to install version 
-<code class="language-plaintext highlighter-rouge">0.2.6</code></p>
+<p>This Privacy Policy applies to all users of the application worldwide, including users located in the European Economic Area (EEA).</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code></code></pre></div></div>
+<p>By using the App, you agree to the practices described in this Privacy Policy.</p>
 
-<p>Run <code class="language-plaintext highlighter-rouge">bundle install</code></p>
+<h1 id="1-about-the-application">1. About the Application</h1>
 
-<p>If the installation is successful, you’ll see the output below in your terminal when you run <code class="language-plaintext highlighter-rouge">bundle info rails_lens</code></p>
+<p>Sporty: Sports Card Scanner is a mobile application that allows users to scan and analyze collectible sports cards such as:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="o">*</span> <span class="n">rails_lens</span> <span class="p">(</span><span class="mf">0.2</span><span class="o">.</span><span class="mi">6</span><span class="p">)</span>
-	<span class="no">Summary</span><span class="p">:</span> <span class="no">Comprehensive</span> <span class="no">Rails</span> <span class="n">application</span> <span class="n">visualization</span> <span class="ow">and</span> <span class="n">annotation</span>
-	<span class="no">Homepage</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">github</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">seuros</span><span class="o">/</span><span class="n">rails_lens</span>
-	<span class="no">Source</span> <span class="no">Code</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">github</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">seuros</span><span class="o">/</span><span class="n">rails_lens</span>
-	<span class="no">Changelog</span><span class="p">:</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">github</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span><span class="n">seuros</span><span class="o">/</span><span class="n">rails_lens</span><span class="o">/</span><span class="n">blob</span><span class="o">/</span><span class="n">main</span><span class="o">/</span><span class="no">CHANGELOG</span><span class="p">.</span><span class="nf">md</span>
-	<span class="no">Path</span><span class="p">:</span> <span class="sr">/usr/s</span><span class="n">hare</span><span class="o">/</span><span class="n">rvm</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">ruby</span><span class="o">-</span><span class="mf">3.3</span><span class="o">.</span><span class="mi">4</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">rails_lens</span><span class="o">-</span><span class="mf">0.2</span><span class="o">.</span><span class="mi">6</span>
-</code></pre></div></div>
+<ul>
+  <li>Baseball cards</li>
+  <li>Basketball cards</li>
+  <li>Hockey cards</li>
+  <li>Other sports trading cards</li>
+</ul>
 
-<p>Note: At the time of writing this article, you have to specify the version of rails-lens you want to be installed. By just adding <code class="language-plaintext highlighter-rouge">gem 'rails-lens'</code> to your gem file and running <code class="language-plaintext highlighter-rouge">bundle install</code>, the version that ends up being installed is a placeholder version named <code class="language-plaintext highlighter-rouge">0.0.0</code>. With this version, you’ll run into the error below when you run the command responsible for annotation.</p>
+<p>The App uses image recognition technology to identify card information from photographs taken with a device camera or selected from the device photo library.</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">bundler: </span><span class="n">command</span> <span class="ow">not</span> <span class="ss">found: </span><span class="n">rails_lens</span>
-<span class="no">Install</span> <span class="n">missing</span> <span class="n">gem</span> <span class="n">executables</span> <span class="n">with</span> <span class="sb">`bundle install`</span>
-</code></pre></div></div>
+<p>The App is designed with a <strong>minimal data collection approach</strong>, meaning it only processes information necessary to provide its functionality.</p>
 
-<p>After installing the <code class="language-plaintext highlighter-rouge">rails-lens</code> gem, now onto the fun part, annotation.</p>
+<h1 id="2-information-we-collect">2. Information We Collect</h1>
 
-<p>To annotate all the model files in the application, run the command below:</p>
+<p>The App does <strong>not collect personal information</strong> such as:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rails_lens</span> <span class="n">annotate</span>
-</code></pre></div></div>
-<p>The above command adds annotations the 4 model files in our rails app.</p>
+<ul>
+  <li>Name</li>
+  <li>Email address</li>
+  <li>Phone number</li>
+  <li>Postal address</li>
+  <li>Account credentials</li>
+  <li>Payment details</li>
+</ul>
 
-<p>Let’s take a quick look at the <code class="language-plaintext highlighter-rouge">post.rb</code> model file.</p>
+<p>The App also <strong>does not require users to create accounts</strong>.</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># &lt;rails-lens:schema:begin&gt;</span>
-<span class="c1"># table = "posts"</span>
-<span class="c1"># database_dialect = "SQLite"</span>
-<span class="c1">#</span>
-<span class="c1"># columns = [</span>
-<span class="c1">#   { name = "id", type = "integer", primary_key = true, nullable = false },</span>
-<span class="c1">#   { name = "title", type = "text", nullable = true },</span>
-<span class="c1">#   { name = "body", type = "text", nullable = true },</span>
-<span class="c1">#   { name = "category_id", type = "integer", nullable = false },</span>
-<span class="c1">#   { name = "user_id", type = "integer", nullable = false },</span>
-<span class="c1">#   { name = "created_at", type = "datetime", nullable = false },</span>
-<span class="c1">#   { name = "updated_at", type = "datetime", nullable = false }</span>
-<span class="c1"># ]</span>
-<span class="c1">#</span>
-<span class="c1"># indexes = [</span>
-<span class="c1">#   { name = "index_posts_on_user_id", columns = ["user_id"] },</span>
-<span class="c1">#   { name = "index_posts_on_category_id", columns = ["category_id"] }</span>
-<span class="c1"># ]</span>
-<span class="c1">#</span>
-<span class="c1"># foreign_keys = [</span>
-<span class="c1">#   { column = "user_id", references_table = "users", references_column = "id" },</span>
-<span class="c1">#   { column = "category_id", references_table = "categories", references_column = "id" }</span>
-<span class="c1"># ]</span>
-<span class="c1">#</span>
-<span class="c1"># == Notes</span>
-<span class="c1"># - Association 'comments' should specify inverse_of</span>
-<span class="c1"># - Association 'comments' has N+1 query risk. Consider using includes/preload</span>
-<span class="c1"># - Column 'title' should probably have NOT NULL constraint</span>
-<span class="c1"># - Column 'body' should probably have NOT NULL constraint</span>
-<span class="c1"># - Large text column 'title' is frequently queried - consider separate storage</span>
-<span class="c1"># - Large text column 'body' is frequently queried - consider separate storage</span>
-<span class="c1"># &lt;rails-lens:schema:end&gt;</span>
+<p>However, limited data may be processed to allow the App to function.</p>
 
+<h2 id="21-images-for-card-scanning">2.1 Images for Card Scanning</h2>
 
-<span class="k">class</span> <span class="nc">Post</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
-  <span class="n">has_many</span> <span class="ss">:comments</span><span class="p">,</span> <span class="ss">dependent: :destroy</span>
-  <span class="n">belongs_to</span> <span class="ss">:category</span>
-  <span class="n">belongs_to</span> <span class="ss">:user</span>
-<span class="k">end</span>
-</code></pre></div></div>
-<p>With the lines below, we can identify that this is a schema annotation for the Posts table in a rails application using SQlite for the database.</p>
+<p>When using the scanning feature, the App may process images captured using your device camera or images selected from your device’s photo library.</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># &lt;rails-lens:schema:begin&gt;</span>
-<span class="c1"># table = "posts"</span>
-<span class="c1"># database_dialect = "SQLite"</span>
-<span class="c1"># rest of annotation ommitted for brevity</span>
-<span class="c1"># &lt;rails-lens:schema:end&gt;</span>
-</code></pre></div></div>
+<p>These images are used solely for:</p>
 
-<p>The annotation also lets us know about the columns and indexes of the Posts table under the <code class="language-plaintext highlighter-rouge">columns</code> and <code class="language-plaintext highlighter-rouge">indexes</code> sections. Each of the columns of the Post table in the annotation is displayed with either <code class="language-plaintext highlighter-rouge">nullable = false</code> or <code class="language-plaintext highlighter-rouge">nullable = true</code> highlighting whether for the value of a given column can be <code class="language-plaintext highlighter-rouge">null</code> or not at the time of saving a post in the database.</p>
+<ul>
+  <li>Detecting sports cards</li>
+  <li>Identifying card information</li>
+  <li>Generating scan results</li>
+</ul>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># columns = [</span>
-<span class="c1">#   { name = "id", type = "integer", primary_key = true, nullable = false },</span>
-<span class="c1">#   { name = "title", type = "text", nullable = true },</span>
-<span class="c1">#   { name = "body", type = "text", nullable = true },</span>
-<span class="c1">#   { name = "category_id", type = "integer", nullable = false },</span>
-<span class="c1">#   { name = "user_id", type = "integer", nullable = false },</span>
-<span class="c1">#   { name = "created_at", type = "datetime", nullable = false },</span>
-<span class="c1">#   { name = "updated_at", type = "datetime", nullable = false }</span>
-<span class="c1"># ]</span>
-<span class="c1">#</span>
-<span class="c1"># indexes = [</span>
-<span class="c1">#   { name = "index_posts_on_user_id", columns = ["user_id"] },</span>
-<span class="c1">#   { name = "index_posts_on_category_id", columns = ["category_id"] }</span>
-<span class="c1"># ]</span>
-</code></pre></div></div>
-<p>The <code class="language-plaintext highlighter-rouge">foreign_keys</code> section of the annotation highlights the associations between the Post model and other models in the application namely the User and Category.</p>
+<p>Images are processed only to provide the scanning functionality and are <strong>not used for advertising, profiling, or marketing purposes</strong>.</p>
 
-<p>We get extra notes as part of the annotation as well and this is where <code class="language-plaintext highlighter-rouge">rails-lens</code> shines compared to other annotation gems.</p>
+<h2 id="22-device-permissions">2.2 Device Permissions</h2>
 
-<p>As part of the output you can see that <code class="language-plaintext highlighter-rouge">rails-lens</code> notified us of some ways in which the schema and therefore our application could use some improvements. This includes the N+1 query risk associated with the Comment model.</p>
+<p>The App may request the following permissions:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># - Association 'comments' has N+1 query risk. Consider using includes/preload</span>
-</code></pre></div></div>
+<p><strong>Camera Access</strong>
+Used to capture images of sports cards for scanning.</p>
 
-<p>Also you might remember that aas part of the columns section of the annotation, the title and body columns had <code class="language-plaintext highlighter-rouge">nullable</code> set to true which means that its possible to create a post without a title or a body. This is not ideal as we would want every post within the application to have a title and a body. Rails lens lets us know about this as well.</p>
+<p><strong>Photo Library Access</strong>
+Used to allow users to select images from their device gallery for analysis.</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># - Column 'title' should probably have NOT NULL constraint</span>
-<span class="c1"># - Column 'body' should probably have NOT NULL constraint</span>
-</code></pre></div></div>
-<p>And now that we know about it, we can proceed to address it whether by adding a validation or any other approach.</p>
+<p>The App only accesses these resources when the user explicitly chooses to use these features.</p>
 
-<p>Lastly Rails lens lets us know of the potential impacts on performance we many run into if we have so many records in the application and it doesn’t stop at that, it tells us what could potentially cause performance problems and what we can do to solve this.</p>
+<h1 id="3-how-we-use-information">3. How We Use Information</h1>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># - Large text column 'title' is frequently queried - consider separate storage</span>
-<span class="c1"># - Large text column 'body' is frequently queried - consider separate storage</span>
-</code></pre></div></div>
-<p>And there you have it, we were able to get information about the models in the application, all without constantly going back and forth between the model files and the <code class="language-plaintext highlighter-rouge">schema.rb</code> file.</p>
+<p>Information processed by the App is used solely for the following purposes:</p>
 
-<p>The annotated Comment, User and Category models are attached below.</p>
+<ul>
+  <li>Providing the sports card scanning functionality</li>
+  <li>Identifying card details</li>
+  <li>Displaying scan results to the user</li>
+</ul>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># &lt;rails-lens:schema:begin&gt;</span>
-<span class="c1"># table = "users"</span>
-<span class="c1"># database_dialect = "SQLite"</span>
-<span class="c1">#</span>
-<span class="c1"># columns = [</span>
-<span class="c1">#   { name = "id", type = "integer", primary_key = true, nullable = false },</span>
-<span class="c1">#   { name = "name", type = "string", nullable = true },</span>
-<span class="c1">#   { name = "email", type = "string", nullable = true },</span>
-<span class="c1">#   { name = "created_at", type = "datetime", nullable = false },</span>
-<span class="c1">#   { name = "updated_at", type = "datetime", nullable = false }</span>
-<span class="c1"># ]</span>
-<span class="c1">#</span>
-<span class="c1"># == Notes</span>
-<span class="c1"># - Column 'name' should probably have NOT NULL constraint</span>
-<span class="c1"># - Column 'email' should probably have NOT NULL constraint</span>
-<span class="c1"># - String column 'name' has no length limit - consider adding one</span>
-<span class="c1"># - String column 'email' has no length limit - consider adding one</span>
-<span class="c1"># - Column 'email' is commonly used in queries - consider adding an index</span>
-<span class="c1"># &lt;rails-lens:schema:end&gt;</span>
+<p>We do not use user data for:</p>
 
+<ul>
+  <li>Advertising</li>
+  <li>Behavioral tracking</li>
+  <li>Marketing</li>
+  <li>Profiling users</li>
+</ul>
 
-<span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
-<span class="k">end</span>
-</code></pre></div></div>
+<h1 id="4-third-party-services">4. Third-Party Services</h1>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># &lt;rails-lens:schema:begin&gt;</span>
-<span class="c1"># table = "comments"</span>
-<span class="c1"># database_dialect = "SQLite"</span>
-<span class="c1">#</span>
-<span class="c1"># columns = [</span>
-<span class="c1">#   { name = "id", type = "integer", primary_key = true, nullable = false },</span>
-<span class="c1">#   { name = "content", type = "text", nullable = true },</span>
-<span class="c1">#   { name = "post_id", type = "integer", nullable = false },</span>
-<span class="c1">#   { name = "created_at", type = "datetime", nullable = false },</span>
-<span class="c1">#   { name = "updated_at", type = "datetime", nullable = false }</span>
-<span class="c1"># ]</span>
-<span class="c1">#</span>
-<span class="c1"># indexes = [</span>
-<span class="c1">#   { name = "index_comments_on_post_id", columns = ["post_id"] }</span>
-<span class="c1"># ]</span>
-<span class="c1">#</span>
-<span class="c1"># foreign_keys = [</span>
-<span class="c1">#   { column = "post_id", references_table = "posts", references_column = "id" }</span>
-<span class="c1"># ]</span>
-<span class="c1">#</span>
-<span class="c1"># == Notes</span>
-<span class="c1"># - Association 'post' should specify inverse_of</span>
-<span class="c1"># - Column 'content' should probably have NOT NULL constraint</span>
-<span class="c1"># - Large text column 'content' is frequently queried - consider separate storage</span>
-<span class="c1"># &lt;rails-lens:schema:end&gt;</span>
+<p>To provide image analysis functionality, the App uses the <strong>Gemini API</strong> provided by <strong>Google</strong>.</p>
 
+<p>When a user scans a sports card, the captured image may be transmitted securely to Google’s servers for analysis.</p>
 
-<span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
-  <span class="n">belongs_to</span> <span class="ss">:post</span>
-<span class="k">end</span>
-</code></pre></div></div>
+<p>The developer of the App does not control how Google processes data once it reaches Google’s infrastructure. Users are encouraged to review Google’s privacy policies:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># &lt;rails-lens:schema:begin&gt;</span>
-<span class="c1"># table = "categories"</span>
-<span class="c1"># database_dialect = "SQLite"</span>
-<span class="c1">#</span>
-<span class="c1"># columns = [</span>
-<span class="c1">#   { name = "id", type = "integer", primary_key = true, nullable = false },</span>
-<span class="c1">#   { name = "name", type = "string", nullable = true },</span>
-<span class="c1">#   { name = "created_at", type = "datetime", nullable = false },</span>
-<span class="c1">#   { name = "updated_at", type = "datetime", nullable = false }</span>
-<span class="c1"># ]</span>
-<span class="c1">#</span>
-<span class="c1"># == Notes</span>
-<span class="c1"># - Column 'name' should probably have NOT NULL constraint</span>
-<span class="c1"># - String column 'name' has no length limit - consider adding one</span>
-<span class="c1"># &lt;rails-lens:schema:end&gt;</span>
+<p>https://policies.google.com/privacy</p>
 
+<p>These third-party services are used strictly to enable the core functionality of the App.</p>
 
-<span class="k">class</span> <span class="nc">Category</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
-<span class="k">end</span>
-</code></pre></div></div>
-<p>Also, its possible to annotate specific model files using the command below;</p>
+<p>The developer does <strong>not sell or share user data with advertisers or unrelated third parties</strong>.</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rails_lens</span> <span class="n">annotate</span> <span class="o">--</span><span class="n">model</span> <span class="no">Post</span> <span class="no">Comment</span>
-</code></pre></div></div>
-<p>To remove the annotations, run the command below:</p>
+<h1 id="5-legal-basis-for-processing-eea-users">5. Legal Basis for Processing (EEA Users)</h1>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rails_lens</span> <span class="n">remove</span>
-</code></pre></div></div>]]></content><author><name></name></author><category term="tutorial" /><summary type="html"><![CDATA[At some point in a Rails project, you’ll have to go through a period of understanding the models and the relationships inside them. This will be more likely before you start contributing to a rails open source project or at your new job. This part of onboarding usually involves a dauting process of going back and forth between the model files and the schema.rb file with the sole purpose of mapping relationships between database tables as well as establishing what the models them selves are capable of. Luckily for us, there is a better way to achieve the same, and with less frustration by using the rails-lens gem.]]></summary></entry><entry><title type="html">Refactoring If statements with a ternary operator</title><link href="http://localhost:4000/refactoring/2025/08/11/refactoring-if-statements-with-a-ternary-operator.html" rel="alternate" type="text/html" title="Refactoring If statements with a ternary operator" /><published>2025-08-11T23:53:47+03:00</published><updated>2025-08-11T23:53:47+03:00</updated><id>http://localhost:4000/refactoring/2025/08/11/refactoring-if-statements-with-a-ternary-operator</id><content type="html" xml:base="http://localhost:4000/refactoring/2025/08/11/refactoring-if-statements-with-a-ternary-operator.html"><![CDATA[<p>Junior ruby developers have this very strong compulsion to think of solving coding problems in terms of if statements. And before you come at me, I came to this realization simply because I’m a junior myself. This isn’t me trashing if statements as a problem solving approach. On the contrary, if statements are sometimes absolutely necessary and if you were to take a deep dive of some of the best rails/ruby code bases out there, you’ll notice that they employ if statements in multiple places.</p>
+<p>If you are located in the European Economic Area (EEA), processing of information is conducted under the legal bases defined by the <strong>General Data Protection Regulation (GDPR)</strong>.</p>
+
+<p>The legal basis for processing images within the App is:</p>
+
+<p><strong>Legitimate Interest</strong></p>
+
+<p>Processing images is necessary to provide the functionality of scanning and identifying sports cards.</p>
+
+<p>Because the App does not collect personal user accounts or personal identifiers, the processing is limited to what is necessary to provide the requested service.</p>
+
+<h1 id="6-data-retention">6. Data Retention</h1>
+
+<p>The App does not maintain user accounts or a user database.</p>
+
+<p>Images used for card scanning are processed temporarily and are not permanently stored by the App developer.</p>
+
+<p>Users remain in control of their photos and may delete them directly from their device.</p>
+
+<h1 id="7-data-sharing">7. Data Sharing</h1>
+
+<p>We do <strong>not sell, rent, trade, or share personal data with advertisers or data brokers</strong>.</p>
+
+<p>Information may only be processed by trusted service providers when necessary to provide the App’s functionality, such as the Google Gemini API used for image analysis.</p>
+
+<h1 id="8-international-data-transfers">8. International Data Transfers</h1>
+
+<p>Because the App uses services operated by Google, images submitted for analysis may be transmitted to servers located outside the user’s country of residence.</p>
+
+<p>These transfers may include servers located in the United States or other jurisdictions where Google operates infrastructure.</p>
+
+<p>Google implements safeguards designed to protect user data during international transfers.</p>
+
+<h1 id="9-childrens-privacy">9. Children’s Privacy</h1>
+
+<p>The App may be used by children.</p>
+
+<p>However, the App does not knowingly collect personal information from children under the age of 13.</p>
+
+<p>Because the App does not require accounts and does not collect personal identifiers, it is designed to minimize the collection of information from minors.</p>
+
+<p>Parents or guardians who believe their child has provided personal information may contact the developer for assistance.</p>
+
+<h1 id="10-your-data-protection-rights">10. Your Data Protection Rights</h1>
+
+<p>Depending on your location, you may have certain rights regarding your personal data, including:</p>
+
+<ul>
+  <li>The right to access data</li>
+  <li>The right to request correction</li>
+  <li>The right to request deletion</li>
+  <li>The right to restrict processing</li>
+  <li>The right to object to processing</li>
+  <li>The right to data portability</li>
+</ul>
+
+<p>Because the App does not maintain personal accounts or stored user data, many of these rights can be exercised by deleting images locally or uninstalling the App.</p>
+
+<p>Users may contact the developer for assistance with any privacy concerns.</p>
+
+<h1 id="11-data-deletion">11. Data Deletion</h1>
+
+<p>Users may delete their data in the following ways:</p>
+
+<ul>
+  <li>Removing images from their device</li>
+  <li>Uninstalling the application</li>
+  <li>Cancelling any applicable subscription through the app store used for purchase</li>
+</ul>
+
+<p>If additional assistance is required, users may contact the developer.</p>
+
+<h1 id="12-app-tracking-transparency">12. App Tracking Transparency</h1>
+
+<p>The App does <strong>not use tracking technologies</strong> as defined under Apple’s App Tracking Transparency framework.</p>
+
+<p>The App does not track users across apps or websites owned by other companies.</p>
+
+<h1 id="13-security">13. Security</h1>
+
+<p>Reasonable technical and organizational measures are implemented to protect information processed by the App.</p>
+
+<p>However, no method of transmission over the internet or electronic storage is completely secure.</p>
+
+<h1 id="14-changes-to-this-privacy-policy">14. Changes to This Privacy Policy</h1>
+
+<p>This Privacy Policy may be updated from time to time.</p>
+
+<p>When updates occur, the “Last updated” date at the top of this document will be revised.</p>
+
+<p>Users are encouraged to review this policy periodically.</p>
+
+<h1 id="15-contact-information">15. Contact Information</h1>
+
+<p>If you have any questions about this Privacy Policy or the App, you may contact:</p>
+
+<p>Email Us at: <a href="mailto:kitakajamesnewton@gmail.com">kitakajamesnewton@gmail.com</a></p>]]></content><author><name></name></author><category term="apps" /><summary type="html"><![CDATA[Last updated: March 7, 2026]]></summary></entry><entry><title type="html">Sporty: Sports Card Scanner Terms and Conditions</title><link href="http://localhost:4000/apps/2026/03/06/sporty-terms-and-conditions.html" rel="alternate" type="text/html" title="Sporty: Sports Card Scanner Terms and Conditions" /><published>2026-03-06T23:53:47+03:00</published><updated>2026-03-06T23:53:47+03:00</updated><id>http://localhost:4000/apps/2026/03/06/sporty-terms-and-conditions</id><content type="html" xml:base="http://localhost:4000/apps/2026/03/06/sporty-terms-and-conditions.html"><![CDATA[<p><strong>Last updated: March 7, 2026</strong></p>
+
+<p>These Terms and Conditions (“Terms”) govern your use of the mobile application <strong>Sporty: Sports Card Scanner</strong> (“the App”).</p>
+
+<p>The App is operated by:</p>
+
+<ul>
+  <li><strong>Developer:</strong> Kitaka James Newton</li>
+  <li><strong>Email:</strong> <a href="mailto:kitakajamesnewton@gmail.com">kitakajamesnewton@gmail.com</a></li>
+  <li><strong>Country of Operation:</strong> Uganda</li>
+</ul>
+
+<p>By downloading, installing, or using the App, you agree to these Terms.
+If you do not agree to these Terms, you should not use the App.</p>
+
+<h1 id="1-description-of-the-app">1. Description of the App</h1>
+
+<p>Sporty: Sports Card Scanner is a mobile application designed to allow users to scan and analyze collectible sports cards using their device camera or images from their photo library.</p>
+
+<p>The App may be used to analyze sports cards such as:</p>
+
+<ul>
+  <li>Baseball cards</li>
+  <li>Basketball cards</li>
+  <li>Hockey cards</li>
+  <li>Other collectible sports trading cards</li>
+</ul>
+
+<p>The App processes images to identify card information and present results to users.</p>
+
+<p>The App may rely on third-party technologies to perform image analysis.</p>
+
+<h1 id="2-eligibility">2. Eligibility</h1>
+
+<p>The App is intended for general audiences.</p>
+
+<p>Children may use the App under the supervision of a parent or guardian.</p>
+
+<p>By using the App, you confirm that you have the legal capacity to agree to these Terms in your jurisdiction or that you are using the App with the consent of a parent or guardian.</p>
+
+<h1 id="3-license-to-use-the-app">3. License to Use the App</h1>
+
+<p>The developer grants you a <strong>limited, non-exclusive, non-transferable, revocable license</strong> to use the App for personal and non-commercial purposes.</p>
+
+<p>You agree not to:</p>
+
+<ul>
+  <li>Copy or modify the App</li>
+  <li>Reverse engineer or attempt to extract the App’s source code</li>
+  <li>Use the App for unlawful activities</li>
+  <li>Attempt to bypass security or access restrictions</li>
+  <li>Interfere with the App’s normal operation</li>
+</ul>
+
+<p>All rights not expressly granted remain with the developer.</p>
+
+<h1 id="4-user-responsibilities">4. User Responsibilities</h1>
+
+<p>When using the App, you agree to:</p>
+
+<ul>
+  <li>Use the App only for lawful purposes</li>
+  <li>Respect the rights of others</li>
+  <li>Avoid uploading illegal or harmful content</li>
+  <li>Use images that you have the right to use</li>
+</ul>
+
+<p>You remain responsible for the images you choose to scan using the App.</p>
+
+<h1 id="5-third-party-services">5. Third-Party Services</h1>
+
+<p>The App may rely on third-party technologies to perform certain functions.</p>
+
+<p>For example, image analysis may be performed using the <strong>Gemini API</strong> provided by <strong>Google</strong>.</p>
+
+<p>When a user scans a card, the image may be transmitted securely to Google’s servers to perform the analysis.</p>
+
+<p>These services operate independently and are governed by their own policies and terms.</p>
+
+<h1 id="6-artificial-intelligence-and-automated-analysis">6. Artificial Intelligence and Automated Analysis</h1>
+
+<p>The App may use artificial intelligence technologies to analyze images and identify sports cards.</p>
+
+<p>Results generated by the App are <strong>automatically produced and may not always be accurate, complete, or reliable</strong>.</p>
+
+<p>The App is intended to provide informational assistance only. Scan results should not be relied upon as definitive identification, valuation, or authentication of sports cards.</p>
+
+<p>Users are encouraged to independently verify information obtained from the App.</p>
+
+<h1 id="7-subscriptions-and-payments">7. Subscriptions and Payments</h1>
+
+<p>The App may offer optional subscription-based features.</p>
+
+<p>If you purchase a subscription:</p>
+
+<ul>
+  <li>Payments are processed through the app store where the App was downloaded.</li>
+  <li>Subscription management, billing, and cancellation are handled by the respective app store.</li>
+</ul>
+
+<p>Users may cancel subscriptions at any time through their app store account settings.</p>
+
+<p>The developer does not collect or store payment information.</p>
+
+<h1 id="8-accuracy-of-results">8. Accuracy of Results</h1>
+
+<p>The App uses image recognition technology to identify sports cards.</p>
+
+<p>Although the App is designed to provide helpful results, the developer does not guarantee the accuracy, completeness, or reliability of any scan results.</p>
+
+<p>Users should verify important information independently.</p>
+
+<h1 id="9-intellectual-property">9. Intellectual Property</h1>
+
+<p>All software, design, content, and functionality associated with the App are the intellectual property of the developer unless otherwise stated.</p>
+
+<p>These Terms do not grant ownership rights in the App or its technology.</p>
+
+<h1 id="10-sports-card-trademarks-disclaimer">10. Sports Card Trademarks Disclaimer</h1>
+
+<p>Sports leagues, teams, trading card manufacturers, and other related entities may hold trademarks, copyrights, or other intellectual property rights associated with sports cards.</p>
+
+<p>Sporty: Sports Card Scanner is <strong>not affiliated with, endorsed by, or sponsored by any sports league, team, trading card manufacturer, or card grading company</strong>.</p>
+
+<p>All trademarks and brand names belong to their respective owners and are used only for identification purposes.</p>
+
+<h1 id="11-app-store-compliance">11. App Store Compliance</h1>
+
+<p>If the App is downloaded from an application marketplace such as the Apple App Store or Google Play Store, the user acknowledges that:</p>
+
+<ul>
+  <li>These Terms are between the user and the developer, not the app store provider.</li>
+  <li>The app store provider is not responsible for the App or its content.</li>
+  <li>The app store provider has no obligation to provide maintenance or support services for the App.</li>
+</ul>
+
+<p>Users must also comply with the terms of service of the respective app store when using the App.</p>
+
+<h1 id="12-limitation-of-liability">12. Limitation of Liability</h1>
+
+<p>To the maximum extent permitted by applicable law, the developer shall not be liable for any damages arising from the use or inability to use the App.</p>
+
+<p>This includes, but is not limited to:</p>
+
+<ul>
+  <li>Loss of data</li>
+  <li>Incorrect scan results</li>
+  <li>Financial losses</li>
+  <li>Device issues</li>
+  <li>Service interruptions</li>
+</ul>
+
+<p>Use of the App is at the user’s own risk.</p>
+
+<h1 id="13-disclaimer-of-warranties">13. Disclaimer of Warranties</h1>
+
+<p>The App is provided <strong>“as is”</strong> and <strong>“as available”</strong> without warranties of any kind.</p>
+
+<p>The developer does not guarantee that:</p>
+
+<ul>
+  <li>The App will be uninterrupted</li>
+  <li>The App will be error-free</li>
+  <li>The App will meet all user expectations</li>
+</ul>
+
+<h1 id="14-termination">14. Termination</h1>
+
+<p>The developer reserves the right to suspend or terminate access to the App if users violate these Terms.</p>
+
+<p>Users may stop using the App at any time by uninstalling it from their device.</p>
+
+<h1 id="15-updates-to-the-app">15. Updates to the App</h1>
+
+<p>The App may receive updates or modifications to improve performance, security, or compatibility.</p>
+
+<p>Users may need to install updates in order to continue using the App.</p>
+
+<h1 id="16-changes-to-these-terms">16. Changes to These Terms</h1>
+
+<p>The developer may update these Terms periodically.</p>
+
+<p>When changes are made, the “Last updated” date at the top of the document will be revised.</p>
+
+<p>Continued use of the App after changes are posted constitutes acceptance of the updated Terms.</p>
+
+<h1 id="17-governing-law">17. Governing Law</h1>
+
+<p>These Terms shall be governed by and interpreted in accordance with the laws of <strong>Uganda</strong>, without regard to conflict-of-law principles.</p>
+
+<h1 id="18-contact-information">18. Contact Information</h1>
+
+<p>If you have questions about these Terms and Conditions, you may contact:</p>
+
+<p>Email us at: <a href="mailto:kitakajamesnewton@gmail.com">kitakajamesnewton@gmail.com</a></p>]]></content><author><name></name></author><category term="apps" /><summary type="html"><![CDATA[Last updated: March 7, 2026]]></summary></entry><entry><title type="html">Refactoring If statements with a ternary operator</title><link href="http://localhost:4000/refactoring/2025/08/11/refactoring-if-statements-with-a-ternary-operator.html" rel="alternate" type="text/html" title="Refactoring If statements with a ternary operator" /><published>2025-08-11T23:53:47+03:00</published><updated>2025-08-11T23:53:47+03:00</updated><id>http://localhost:4000/refactoring/2025/08/11/refactoring-if-statements-with-a-ternary-operator</id><content type="html" xml:base="http://localhost:4000/refactoring/2025/08/11/refactoring-if-statements-with-a-ternary-operator.html"><![CDATA[<p>Junior ruby developers have this very strong compulsion to think of solving coding problems in terms of if statements. And before you come at me, I came to this realization simply because I’m a junior myself. This isn’t me trashing if statements as a problem solving approach. On the contrary, if statements are sometimes absolutely necessary and if you were to take a deep dive of some of the best rails/ruby code bases out there, you’ll notice that they employ if statements in multiple places.</p>
 
 <p>Take for example, you have a single condition and you have two desired outputs. One output is returned when the condition is true and the other is returned if the condition is false. It wouldn’t make sense for you to apply a complex technique for example like metaprogramming to implement this. A simple if statement would suffice.</p>
 
@@ -662,6 +844,36 @@ post.index_attributes
 </code></pre></div></div>
 
 <p>This reveals a subtle detail about the <code class="language-plaintext highlighter-rouge">send</code> method in Ruby which is that allows 2 options for passing an already defined method to send inside parentheses with one of them being as a symbol(like the current code) and the other as a string.</p>
+
+<p>To further confirm this, let’s perform a simple experiment in an <code class="language-plaintext highlighter-rouge">irb</code> session. The aim of this experiment is pretty simple: to capitalize a string using the <code class="language-plaintext highlighter-rouge">upcase</code> method which ships with Ruby by default.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># create a variable name and assign it to a string</span>
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mo">001</span> <span class="o">&gt;</span> <span class="nb">name</span> <span class="o">=</span> <span class="s2">"james"</span>
+ <span class="o">=&gt;</span> <span class="s2">"james"</span> 
+<span class="c1"># call the Ruby method upcase to capitalize the string</span>
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mo">002</span> <span class="o">&gt;</span> <span class="nb">name</span><span class="p">.</span><span class="nf">upcase</span>
+ <span class="o">=&gt;</span> <span class="s2">"JAMES"</span> 
+<span class="c1"># To capitalize the string using the send and upcase methods</span>
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mo">003</span> <span class="o">&gt;</span> <span class="nb">name</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="ss">:upcase</span><span class="p">)</span>
+ <span class="o">=&gt;</span> <span class="s2">"JAMES"</span> 
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mo">004</span> <span class="o">&gt;</span> <span class="nb">name</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="s2">"upcase"</span><span class="p">)</span>
+ <span class="o">=&gt;</span> <span class="s2">"JAMES"</span> 
+<span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span> <span class="p">:</span><span class="mo">005</span> <span class="o">&gt;</span> <span class="nb">name</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="n">upcase</span><span class="p">)</span>
+<span class="p">(</span><span class="n">irb</span><span class="p">):</span><span class="mi">5</span><span class="ss">:in</span> <span class="sb">`&lt;main&gt;': undefined local variable or method `</span><span class="n">upcase</span><span class="s1">' for main:Object (NameError)
+
+name.send(upcase)
+          ^^^^^^
+Did you mean?  case
+	from /usr/share/rvm/gems/ruby-3.2.6/gems/irb-1.15.2/exe/irb:9:in `&lt;top (required)&gt;'</span>
+	<span class="n">from</span> <span class="sr">/usr/s</span><span class="n">hare</span><span class="o">/</span><span class="n">rvm</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">ruby</span><span class="o">-</span><span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">irb</span><span class="p">:</span><span class="mi">25</span><span class="ss">:in</span> <span class="sb">`load'
+	from /usr/share/rvm/gems/ruby-3.2.6/bin/irb:25:in `</span><span class="o">&lt;</span><span class="n">main</span><span class="o">&gt;</span><span class="s1">'
+	from /usr/share/rvm/gems/ruby-3.2.6/bin/ruby_executable_hooks:22:in `eval'</span>
+	<span class="n">from</span> <span class="sr">/usr/s</span><span class="n">hare</span><span class="o">/</span><span class="n">rvm</span><span class="o">/</span><span class="n">gems</span><span class="o">/</span><span class="n">ruby</span><span class="o">-</span><span class="mf">3.2</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">ruby_executable_hooks</span><span class="p">:</span><span class="mi">22</span><span class="ss">:in</span> <span class="sb">`&lt;main&gt;'
+3.2.6 :006 &gt; 
+</span></code></pre></div></div>
+<p>We see that to capitalize the string using a combination of the send and upcase method, we have to pass in the <code class="language-plaintext highlighter-rouge">upcase</code> method to <code class="language-plaintext highlighter-rouge">send</code> as either a string: <code class="language-plaintext highlighter-rouge">name.send(:upcase)</code> or as a symbol: <code class="language-plaintext highlighter-rouge">name.send("upcase")</code>.</p>
+
+<p>When we try to pass in the actual method name: <code class="language-plaintext highlighter-rouge">name.send(upcase)</code>, we get an error which confirms the subtle detail mentioned earlier about the <code class="language-plaintext highlighter-rouge">send</code> method.</p>
 
 <p>And that’s pretty much all I can say about the <code class="language-plaintext highlighter-rouge">send</code> method in ruby. Before I depart however, I’ll leave you with a question. What happens incase we pass a non-existent method to the <code class="language-plaintext highlighter-rouge">send</code> method? Try it out in the browser and see the result for yourself.</p>]]></content><author><name></name></author><category term="refactoring" /><category term="ruby" /><summary type="html"><![CDATA[The send method is one of the most commonly used Ruby methods when implementing metaprogramming solutions to problems in Ruby. For this reason, it is imperative that you understand how it works and the context in which its a method of choice. There is no better way to do this than with a practical example.]]></summary></entry><entry><title type="html">A junior developer’s guide to contributing to ruby events</title><link href="http://localhost:4000/ruby/2025/07/18/a-junior-developer-guide-to-contributing-to-ruby-events.html" rel="alternate" type="text/html" title="A junior developer’s guide to contributing to ruby events" /><published>2025-07-18T01:36:47+03:00</published><updated>2025-07-18T01:36:47+03:00</updated><id>http://localhost:4000/ruby/2025/07/18/a-junior-developer-guide-to-contributing-to-ruby-events</id><content type="html" xml:base="http://localhost:4000/ruby/2025/07/18/a-junior-developer-guide-to-contributing-to-ruby-events.html"><![CDATA[<p>This guide makes the following one major assumption which is that you have a Github account. If by any chance you’re reading this and don’t have one, create one first and then come back to the guide.</p>
 
