@@ -3,6 +3,7 @@ layout: post
 title:  "Sporty: Sports Card Scanner Privacy Policy"
 date:   2026-03-06 23:53:47 +0300
 categories: apps
+permalink: /apps/sporty-privacy-policy.html
 ---
 
 **Last updated: March 7, 2026**
