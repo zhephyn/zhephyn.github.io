@@ -14,7 +14,6 @@ The App is developed and operated by:
 
 - **Developer:** Kitaka James Newton
 - **Contact Email:** [kitakajamesnewton@gmail.com](mailto:kitakajamesnewton@gmail.com)
-- **Country of Operation:** Uganda
 
 This Privacy Policy applies to all users of the application worldwide, including users located in the European Economic Area (EEA).
 
