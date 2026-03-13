@@ -14,7 +14,6 @@ The App is operated by:
 
 - **Developer:** Kitaka James Newton
 - **Email:** [kitakajamesnewton@gmail.com](mailto:kitakajamesnewton@gmail.com)
-- **Country of Operation:** Uganda
 
 By downloading, installing, or using the App, you agree to these Terms.
 If you do not agree to these Terms, you should not use the App.
