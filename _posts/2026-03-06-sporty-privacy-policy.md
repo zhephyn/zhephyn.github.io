@@ -10,10 +10,7 @@ permalink: /apps/sporty-privacy-policy.html
 
 This Privacy Policy describes how **Sporty: Sports Card Scanner** ("the App") collects, uses, and protects information when you use the application.
 
-The App is developed and operated by:
-
-- **Developer:** Kitaka James Newton
-- **Contact Email:** [kitakajamesnewton@gmail.com](mailto:kitakajamesnewton@gmail.com)
+The App is developed and operated by us.
 
 This Privacy Policy applies to all users of the application worldwide, including users located in the European Economic Area (EEA).
 
@@ -142,7 +139,7 @@ However, the App does not knowingly collect personal information from children u
 
 Because the App does not require accounts and does not collect personal identifiers, it is designed to minimize the collection of information from minors.
 
-Parents or guardians who believe their child has provided personal information may contact the developer for assistance.
+Parents or guardians who believe their child has provided personal information may use our [contact form]({{ '/contact/' | relative_url }}) for assistance.
 
 # 10. Your Data Protection Rights
 
@@ -157,7 +154,7 @@ Depending on your location, you may have certain rights regarding your personal 
 
 Because the App does not maintain personal accounts or stored user data, many of these rights can be exercised by deleting images locally or uninstalling the App.
 
-Users may contact the developer for assistance with any privacy concerns.
+Users may use our [contact form]({{ '/contact/' | relative_url }}) for assistance with any privacy concerns.
 
 # 11. Data Deletion
 
@@ -167,7 +164,7 @@ Users may delete their data in the following ways:
 * Uninstalling the application
 * Cancelling any applicable subscription through the app store used for purchase
 
-If additional assistance is required, users may contact the developer.
+If additional assistance is required, users may use our [contact form]({{ '/contact/' | relative_url }}).
 
 # 12. App Tracking Transparency
 
@@ -191,6 +188,4 @@ Users are encouraged to review this policy periodically.
 
 # 15. Contact Information
 
-If you have any questions about this Privacy Policy or the App, you may contact:
-
-Email Us at: [kitakajamesnewton@gmail.com](mailto:kitakajamesnewton@gmail.com)
+If you have any questions about this Privacy Policy or the App, use our [contact form]({{ '/contact/' | relative_url }}).

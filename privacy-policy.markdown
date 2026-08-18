@@ -8,7 +8,7 @@ permalink: /privacy-policy
 
 Last updated: July 23, 2026
 
-This Privacy Policy explains how Kitaka James Newton ("we," "us," or "our") handles information when you use our mobile applications (the "Apps"). It applies to Yum Check and to other scanner, vision, and utility Apps that link to this policy.
+This Privacy Policy explains how we handle information when you use our mobile applications (the "Apps"). It applies to Yum Check and to other scanner, vision, and utility Apps that link to this policy.
 
 By using an App, you agree to the practices described here.
 
@@ -73,19 +73,19 @@ Scan history and related App data are generally retained on your device until yo
 
 Images submitted for analysis are not retained by us as a user profile or scan database. Third-party providers may retain limited information according to their own policies and legal obligations.
 
-To cancel a subscription, use your Apple App Store account settings. For privacy questions or deletion requests we can reasonably address, contact us at [kitakajamesnewton@gmail.com](mailto:kitakajamesnewton@gmail.com).
+To cancel a subscription, use your Apple App Store account settings. For privacy questions or deletion requests we can reasonably address, use our [contact form]({{ '/contact/' | relative_url }}).
 
 ## 7. Your Rights
 
 Depending on where you live, you may have rights to request access to, correction of, deletion of, restriction of, or objection to the processing of your personal information, and to request data portability. You may also have the right to complain to your local data-protection authority.
 
-Because we do not operate user accounts or retain most App data on our own servers, many requests can be addressed by clearing the data from your device or uninstalling the App. Contact us if you need assistance.
+Because we do not operate user accounts or retain most App data on our own servers, many requests can be addressed by clearing the data from your device or uninstalling the App. Use our [contact form]({{ '/contact/' | relative_url }}) if you need assistance.
 
 For users in the European Economic Area or United Kingdom, we process scan content to provide the feature you request and process limited operational information for our legitimate interests in operating, securing, and improving the Apps.
 
 ## 8. Children’s Privacy
 
-The Apps are not designed to knowingly collect personal information from children under 13. If you believe a child has provided personal information to us, please contact us so we can review the request.
+The Apps are not designed to knowingly collect personal information from children under 13. If you believe a child has provided personal information to us, please use our [contact form]({{ '/contact/' | relative_url }}) so we can review the request.
 
 ## 9. Security
 
@@ -97,7 +97,4 @@ We may update this Privacy Policy from time to time. We will post the revised ve
 
 ## 11. Contact
 
-For questions about this Privacy Policy, contact:
-
-Kitaka James Newton  
-[kitakajamesnewton@gmail.com](mailto:kitakajamesnewton@gmail.com)
+For questions about this Privacy Policy, use our [contact form]({{ '/contact/' | relative_url }}).
