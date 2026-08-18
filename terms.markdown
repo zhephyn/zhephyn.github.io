@@ -8,7 +8,7 @@ permalink: /terms
 
 Last updated: July 23, 2026
 
-These Terms and Conditions ("Terms") govern your use of mobile applications provided by Kitaka James Newton ("we," "us," or "our"). They apply to Yum Check and to other scanner, vision, and utility applications that link to these Terms (the "Apps").
+These Terms and Conditions ("Terms") govern your use of mobile applications provided by us. They apply to Yum Check and to other scanner, vision, and utility applications that link to these Terms (the "Apps").
 
 By downloading, installing, or using an App, you agree to these Terms. If you do not agree, do not use the App.
 
@@ -90,7 +90,4 @@ We may revise these Terms from time to time. The revised Terms will be posted on
 
 ## 14. Contact
 
-For questions about these Terms, contact:
-
-Kitaka James Newton  
-[kitakajamesnewton@gmail.com](mailto:kitakajamesnewton@gmail.com)
+For questions about these Terms, use our [contact form]({{ '/contact/' | relative_url }}).

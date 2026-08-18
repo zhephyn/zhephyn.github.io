@@ -19,7 +19,6 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Home
-email: kitakajamesnewton@gmail.com
 description: >- 
   Website for all app related things
 #baseurl: "zhephyn.github.io/" 

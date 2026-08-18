@@ -14,10 +14,7 @@ Last updated: May 29, 2026
 
 These Terms and Conditions (“Terms”) govern your use of the mobile application Philately: Stamp Identifier (“the App”).
 
-The App is operated by:
-
-* Developer: Kitaka James Newton
-* Email: [kitakajamesnewton@gmail.com](mailto:kitakajamesnewton@gmail.com)
+The App is operated by us.
 
 By downloading, installing, or using the App, you agree to these Terms. If you do not agree to these Terms, you should not use the App.
 
@@ -186,6 +183,4 @@ These Terms shall be governed by and interpreted in accordance with the laws of 
 
 ## 18. Contact Information
 
-If you have questions about these Terms and Conditions, you may contact:
-
-Email us at: [kitakajamesnewton@gmail.com](mailto:kitakajamesnewton@gmail.com)
+If you have questions about these Terms and Conditions, use our [contact form]({{ '/contact/' | relative_url }}).
